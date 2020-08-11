@@ -2,7 +2,7 @@
 
 Simulation::Simulation(const Settings &settings)
     : shield(settings),
-      bullet(new BulletBall(settings)),
+      bullet(new BulletAK47(settings)), // TODO - this should be selected from settings (add BulletFactory)
       frameForBalls(false),
       frameNum(0)
 {
@@ -11,8 +11,7 @@ Simulation::Simulation(const Settings &settings)
 
 void Simulation::nextFrame()
 {
-  //  collision.groundCheck(bulletBall);
-
+    // TODO - this requires testing what comes first
     // integration and forces part
     bullet->nextFrame(frameForBalls);
     shield.nextFrame(frameForBalls);
@@ -36,6 +35,7 @@ void Simulation::nextFrame()
 
         collisions.groundCheck(shieldBalls[i], frameForBalls);
     }
+    // TODO - we can also check bullet for ground
 
     // update to next - this comes last for sure
     frameForBalls = !frameForBalls;
