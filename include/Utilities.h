@@ -8,29 +8,13 @@ namespace utilities
 
 class VectorXY
 {
-    double x, y;
 public:
+    double x, y;
     VectorXY(double x = 0.0, double y = 0.0)
         : x(x),
           y(y)
     {
 
-    }
-    double getX() const
-    {
-        return x;
-    }
-    double getY() const
-    {
-        return y;
-    }
-    void setX(double newX)
-    {
-        x = newX;
-    }
-    void setY(double newY)
-    {
-        y = newY;
     }
     void clear()
     {
@@ -61,11 +45,11 @@ struct Vectors
 {
     VectorXY position;
     VectorXY velocity;
-    VectorXY force;
-    Vectors(VectorXY position = VectorXY(), VectorXY velocity = VectorXY(), VectorXY force = VectorXY())
+    VectorXY acceleration;
+    Vectors(VectorXY position = VectorXY(), VectorXY velocity = VectorXY(), VectorXY acceleration = VectorXY())
         : position(position),
           velocity(velocity),
-          force(force)
+          acceleration(acceleration)
     {
     }
 };

@@ -28,8 +28,8 @@ void BulletAK47::initialize()
         for(unsigned int j = 0 ; j < nX ; j++)
         {
             utilities::Vectors vectors;
-            vectors.position.setX(x0 + dx * j);
-            vectors.position.setY(y0 + dy * i);
+            vectors.position.x = x0 + dx * j;
+            vectors.position.y = y0 + dy * i;
             Ball current(vectors, mass, radius);
             balls.push_back(current);
         }

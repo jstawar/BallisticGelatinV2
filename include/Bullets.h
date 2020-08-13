@@ -8,13 +8,10 @@ namespace bullets
 
 class BulletAK47: public Bullet
 {
+protected:
+    virtual void initialize() override;
 public:
     BulletAK47(const Settings &settings);
-    virtual void initialize() override;
-    virtual void nextFrame() override
-    {
-        // TODO
-    }
 };
 
 }

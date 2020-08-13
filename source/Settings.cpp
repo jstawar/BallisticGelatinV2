@@ -7,15 +7,15 @@ Settings::SimulationParameters::SimulationParameters()
       initialBulletVelocity(utilities::VectorXY(10.0,0.0))
 {
     springCoefficient = 500.0;
-    numXShield = 5;
-    numYShield = 6;
-    massShieldBall = 0.0015;
-    radiusShieldBall = 0.015;
+    numXShield = 70;
+    numYShield = 80;
+    massShieldBall = 0.0005;
+    radiusShieldBall = 0.002;
     massBullet = 0.015;
     radiusBullet = 0.015;
     extensionBreakCoefficient = 1.35;
     compressionBreakCoefficient = 0.65;
-    initialShieldPosition = utilities::VectorXY(0.0, 0.0);
+    initialShieldPosition = utilities::VectorXY(0.0, 0.1);
 
     colorMap[0.0] = utilities::Color(1.0, 1.0, 1.0);
     colorMap[0.1] = utilities::Color(0.0, 0.0, 1.0);
@@ -25,7 +25,7 @@ Settings::SimulationParameters::SimulationParameters()
 }
 
 Settings::CalculationParameters::CalculationParameters()
-    : dt(0.001),
+    : dt(0.0002),
       gAcc(9.81),
       tMax(4.0)
 {

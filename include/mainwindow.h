@@ -40,6 +40,7 @@ protected:
     void plotShieldGL(const Shield &shield);
     void connectionPairGL(const SpringConnections &connections);
     void bulletGL(const Bullet &bullet);
+    void trianglesGL(const SpringConnections &connections);
     void printText();
 
 private:

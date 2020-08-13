@@ -4,6 +4,7 @@
 #include "Ball.h"
 #include "Settings.h"
 #include "Physics.h"
+#include "SpringConnections.h"
 
 #include <vector>
 
@@ -14,15 +15,16 @@ protected:
     std::vector<Ball> balls;
     double mass; // joint mass of all constituents
     utilities::VectorXY velocity; // average velocity of all constituents
-    utilities::VectorXY k1v, k2v, k3v, k4v, k1x, k2x, k3x, k4x; // very non-thread safe (not a problem for now)
+    SpringConnections *springConnections;
+    virtual void initialize() = 0;
 public:
     Bullet(const Settings &settings)
-        : settings(settings)
+        : settings(settings),
+          springConnections(nullptr)
     {
 
     }
-    virtual void nextFrame() = 0;
-    virtual void initialize() = 0;
+    virtual void nextFrame();
     const std::vector<Ball> &getBalls() const
     {
         return balls;
@@ -64,7 +66,6 @@ class BulletBall: public Bullet
 public:
     BulletBall(const Settings &settings);
     virtual void initialize() override;
-    virtual void nextFrame() override;
 };
 
 #endif // BULLET_H

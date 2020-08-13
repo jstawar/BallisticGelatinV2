@@ -2,7 +2,7 @@
 
 Simulation::Simulation(const Settings &settings)
     : shield(new Shield(settings)), // TODO - selected from settings (ShieldFactory)
-      bullet(new bullets::BulletAK47(settings)), // TODO - this should be selected from settings (add BulletFactory)
+      bullet(new BulletBall(settings)), // TODO - this should be selected from settings (add BulletFactory)
       frameNum(0)
 {
 

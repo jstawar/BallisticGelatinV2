@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *)
 
     simulation = new Simulation(*settings);
 
-    animationON = true;
+    animationON = false;
     plotShield = true;
     plotTriangles = true;
     plotConnections = true;
@@ -75,7 +75,7 @@ void MainWindow::ballGL(const Ball &ball)
 
     glPushMatrix();
         glColor3d(1.0,1.0,1.0);
-        glTranslated(ball.getPosition().getX(), ball.getPosition().getY(), 0.0);
+        glTranslated(ball.getPosition().x, ball.getPosition().y, 0.0);
         glBegin(GL_LINE_LOOP);
             for (int a = 0; a < 360; a += 360 / sides)
             {
@@ -115,8 +115,8 @@ void MainWindow::connectionPairGL(const SpringConnections &connections)
                 glBegin(GL_LINES);
                     utilities::Color color = numerics::linearInterpolation(settings->simParams.colorMap, current.displacementRatio);
                     glColor3d(color.getRed(), color.getGreen(), color.getBlue());
-                    glVertex2d(current.start.getPosition().getX(), current.start.getPosition().getY());
-                    glVertex2d(current.finish.getPosition().getX(), current.finish.getPosition().getY());
+                    glVertex2d(current.start.getPosition().x, current.start.getPosition().y);
+                    glVertex2d(current.finish.getPosition().x, current.finish.getPosition().y);
                 glEnd();
                 glPopMatrix();
             }
@@ -133,6 +133,34 @@ void MainWindow::bulletGL(const Bullet &bullet)
     {
         ballGL(balls[i]);
     }
+    glPopMatrix();
+}
+
+void MainWindow::trianglesGL(const SpringConnections &connections)
+{
+    const std::map<unsigned int, SpringConnections::TriangleConnection> &triangles = connections.getTrianglesMap();
+    glPushMatrix();
+        for(std::map<unsigned int, SpringConnections::TriangleConnection>::const_iterator it = triangles.begin() ; it != triangles.end() ; ++it)
+        {
+            if(false == it->second.isActive())
+                continue;
+
+            glPushMatrix();
+            glBegin(GL_TRIANGLES);
+                utilities::Color color = numerics::linearInterpolation(settings->simParams.colorMap, it->second.pairs[0]->displacementRatio);
+                glColor3d(color.getRed(), color.getGreen(), color.getBlue());
+                glVertex2d(it->second.first->getPosition().x,it->second.first->getPosition().y);
+
+                color = numerics::linearInterpolation(settings->simParams.colorMap, it->second.pairs[1]->displacementRatio);
+                glColor3d(color.getRed(), color.getGreen(), color.getBlue());
+                glVertex2d(it->second.second->getPosition().x,it->second.second->getPosition().y);
+
+                color = numerics::linearInterpolation(settings->simParams.colorMap, it->second.pairs[2]->displacementRatio);
+                glColor3d(color.getRed(), color.getGreen(), color.getBlue());
+                glVertex2d(it->second.third->getPosition().x,it->second.third->getPosition().y);
+            glEnd();
+            glPopMatrix();
+        }
     glPopMatrix();
 }
 
@@ -202,7 +230,7 @@ void MainWindow::paintEvent(QPaintEvent *)
     glClear(GL_COLOR_BUFFER_BIT);
 
     glPushMatrix();
-        //glTranslated(-0.25,-0.25,0.0);
+        glTranslated(-0.25,-0.25,0.0);
         coordinateSystemGL();
         if(plotShield && simulation->getShield())
             plotShieldGL(*simulation->getShield());
@@ -210,6 +238,10 @@ void MainWindow::paintEvent(QPaintEvent *)
             connectionPairGL(*simulation->getShield()->getSpringConnections());
         if(plotBullet && simulation->getBullet())
             bulletGL(*simulation->getBullet());
+        if(plotTriangles && simulation->getShield())
+            trianglesGL(*simulation->getShield()->getSpringConnections());
         printText();
     glPopMatrix();
+
+    simulation->nextFrame();
 }

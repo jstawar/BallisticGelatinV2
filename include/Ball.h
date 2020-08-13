@@ -33,9 +33,9 @@ public:
     {
         return vectors.velocity;
     }
-    const utilities::VectorXY &getForce() const
+    const utilities::VectorXY &getAcceleration() const
     {
-        return vectors.force;
+        return vectors.acceleration;
     }
     double getRadius() const
     {

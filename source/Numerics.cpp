@@ -5,7 +5,7 @@ namespace numerics
 
 double distanceSquared(utilities::VectorXY const &vec1, utilities::VectorXY const &vec2)
 {
-    return (vec2.getX() - vec1.getX()) * (vec2.getX() - vec1.getX()) + (vec2.getY() - vec1.getY()) * (vec2.getY() - vec1.getY());
+    return (vec2.x - vec1.x) * (vec2.x - vec1.x) + (vec2.y - vec1.y) * (vec2.y - vec1.y);
 }
 
 double distance(utilities::VectorXY const &vec1, utilities::VectorXY const &vec2)
