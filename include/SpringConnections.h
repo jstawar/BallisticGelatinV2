@@ -36,12 +36,16 @@ public:
         double restLength; // initialized as starting length
         double displacementRatio; // used for coloring
         bool isActive;
-        SpringConnectionPair(const Ball &start, const Ball &finish, double restLength, bool isActive)
+        double breakLengthUp, breakLengthDown;
+        SpringConnectionPair(const Ball &start, const Ball &finish, double restLength, bool isActive, double breakLengthUp, double breakLengthDown)
             : start(start),
               finish(finish),
               restLength(restLength),
               displacementRatio(0.0),
-              isActive(isActive)
+              isActive(isActive),
+              breakLengthUp(breakLengthUp),
+              breakLengthDown(breakLengthDown)
+
         {
 
         }
@@ -51,6 +55,7 @@ public:
     {
         return connectionPairs;
     }
+    void nextFrame(bool frame);
 };
 
 

@@ -26,6 +26,10 @@ MainWindow::MainWindow(QWidget *)
     simulation = new Simulation(*settings);
 
     animationON = true;
+    plotShield = true;
+    plotTriangles = true;
+    plotConnections = true;
+    plotBullet = true;
 
     setAnimating(animationON);
 }
@@ -147,15 +151,19 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
     }
     else if(e->key() == Qt::Key_S)
     {
-
+        plotShield = !plotShield;
     }
     else if(e->key() == Qt::Key_C)
     {
-
+        plotConnections = !plotConnections;
     }
     else if(e->key() == Qt::Key_T)
     {
-
+        plotTriangles = !plotTriangles;
+    }
+    else if(e->key() == Qt::Key_B)
+    {
+        plotBullet = !plotBullet;
     }
     else if(e->key() == Qt::Key_F) // TODO - just for testing frame by frame
     {
@@ -178,10 +186,13 @@ void MainWindow::printText()
     QPainter painter(this);
     painter.setPen(Qt::white);
     painter.setFont(QFont("Arial", 16));
-    double energy = simulation->getBullet().getEnergy();
-    double velocity = simulation->getBullet().getVelocity().norm();
-    painter.drawText(QPointF(100.0, 50.0), QString(QStringLiteral("E_k = %1 [J]").arg(energy) ) );
-    painter.drawText(QPointF(100.0, 100.0), QString(QStringLiteral("V = %1 [m/s]").arg(velocity) ) );
+    if( simulation->getBullet() )
+    {
+        double energy = simulation->getBullet()->getEnergy();
+        double velocity = simulation->getBullet()->getVelocity().norm();
+        painter.drawText(QPointF(100.0, 50.0), QString(QStringLiteral("E_k = %1 [J]").arg(energy) ) );
+        painter.drawText(QPointF(100.0, 100.0), QString(QStringLiteral("V = %1 [m/s]").arg(velocity) ) );
+    }
     painter.drawText(QPointF(100.0, 150.0), QString(QStringLiteral("s = %1 [s]").arg(settings->calcParams.dt * simulation->getFrameNum()) ) );
     painter.end();
 }
@@ -194,9 +205,12 @@ void MainWindow::paintEvent(QPaintEvent *)
     glPushMatrix();
         //glTranslated(-0.25,-0.25,0.0);
         coordinateSystemGL();
-        plotShieldGL(simulation->getShield());
-        connectionPairGL(simulation->getSpringConnections());
-        bulletGL(simulation->getBullet());
+        if(plotShield && simulation->getShield())
+            plotShieldGL(*simulation->getShield());
+        if(plotConnections && simulation->getShield() && simulation->getShield()->getSpringConnections())
+            connectionPairGL(*simulation->getShield()->getSpringConnections());
+        if(plotBullet && simulation->getBullet())
+            bulletGL(*simulation->getBullet());
         printText();
     glPopMatrix();
 }

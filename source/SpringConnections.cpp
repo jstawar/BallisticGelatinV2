@@ -28,7 +28,9 @@ void SpringConnections::addRightConnections()
         {
             unsigned int current = settings.simParams.numXShield * i + j;
             double restLength = numerics::distance(current, current+1);
-            SpringConnectionPair connectionPair( balls[current], balls[current+1], restLength, true);
+            double breakLengthUp = restLength * settings.simParams.extensionBreakCoefficient;
+            double breakLengthDown = restLength * settings.simParams.compressionBreakCoefficient;
+            SpringConnectionPair connectionPair( balls[current], balls[current+1], restLength, true, breakLengthUp, breakLengthDown);
             connectionPairs[Right].push_back(connectionPair);
         }
     }
@@ -42,7 +44,9 @@ void SpringConnections::addLeftUpConnections()
         {
             unsigned int current = settings.simParams.numXShield * i + j;
             double restLength = numerics::distance(current, current+settings.simParams.numXShield-1);
-            SpringConnectionPair connectionPair( balls[current], balls[current+settings.simParams.numXShield-1], restLength, true);
+            double breakLengthUp = restLength * settings.simParams.extensionBreakCoefficient;
+            double breakLengthDown = restLength * settings.simParams.compressionBreakCoefficient;
+            SpringConnectionPair connectionPair( balls[current], balls[current+settings.simParams.numXShield-1], restLength, true, breakLengthUp, breakLengthDown);
             connectionPairs[LeftUp].push_back(connectionPair);
         }
     }
@@ -56,7 +60,9 @@ void SpringConnections::addUpConnections()
         {
             unsigned int current = settings.simParams.numXShield * i + j;
             double restLength = numerics::distance(current, current+settings.simParams.numXShield);
-            SpringConnectionPair connectionPair( balls[current], balls[current+settings.simParams.numXShield], restLength, true);
+            double breakLengthUp = restLength * settings.simParams.extensionBreakCoefficient;
+            double breakLengthDown = restLength * settings.simParams.compressionBreakCoefficient;
+            SpringConnectionPair connectionPair( balls[current], balls[current+settings.simParams.numXShield], restLength, true, breakLengthUp, breakLengthDown);
             connectionPairs[Up].push_back(connectionPair);
         }
     }
@@ -70,8 +76,35 @@ void SpringConnections::addRightUpConnections()
         {
             unsigned int current = settings.simParams.numXShield * i + j;
             double restLength = numerics::distance(current, current+settings.simParams.numXShield+1);
-            SpringConnectionPair connectionPair( balls[current], balls[current+settings.simParams.numXShield+1], restLength, true);
+            double breakLengthUp = restLength * settings.simParams.extensionBreakCoefficient;
+            double breakLengthDown = restLength * settings.simParams.compressionBreakCoefficient;
+            SpringConnectionPair connectionPair( balls[current], balls[current+settings.simParams.numXShield+1], restLength, true, breakLengthUp, breakLengthDown);
             connectionPairs[RightUp].push_back(connectionPair);
+        }
+    }
+}
+
+void SpringConnections::nextFrame(bool frame)
+{
+    for(std::map<SpringConnections::ConnectionType, std::vector<SpringConnections::SpringConnectionPair> >::iterator itOuter = connectionPairs.begin() ; itOuter != connectionPairs.end() ; ++itOuter)
+    {
+        std::vector<SpringConnectionPair>::iterator it = itOuter->second.begin();
+        while( it != itOuter->second.end() )
+        {
+            // we only care about active connections
+            if(false == it->isActive)
+            {
+                ++it;
+                continue;
+            }
+            // check for connections that should break
+            double currentLength = numerics::distance(it->start.getPosition(frame), it->finish.getPosition(frame));
+            if( it->breakLengthDown < currentLength ||
+                it->breakLengthUp > currentLength )
+            {
+                it->isActive = false;
+            }
+            ++it;
         }
     }
 }

@@ -51,6 +51,10 @@ private:
     Simulation *simulation;
 
     bool animationON;
+    bool plotShield;
+    bool plotTriangles;
+    bool plotConnections;
+    bool plotBullet;
 
     void setAnimating(bool enabled);
 };

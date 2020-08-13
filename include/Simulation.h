@@ -9,7 +9,7 @@
 class Simulation
 {
 private:
-    Shield shield;
+    Shield *shield;
     Bullet *bullet;
     physics::Collision collisions;
     bool frameForBalls; // 0 or 1
@@ -17,7 +17,7 @@ private:
 public:
     Simulation(const Settings &settings);
     void nextFrame();
-    const Shield &getShield() const
+    const Shield *getShield() const
     {
         return shield;
     }
@@ -25,13 +25,9 @@ public:
     {
         return frameForBalls;
     }
-    const SpringConnections &getSpringConnections() const
+    const Bullet *getBullet() const
     {
-        return *shield.getSpringConnections();
-    }
-    const Bullet &getBullet() const
-    {
-        return *bullet;
+        return bullet;
     }
     unsigned int getFrameNum() const
     {
