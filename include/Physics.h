@@ -23,8 +23,8 @@ public:
      : pi2(2.0*acos(-1.0E0)) // TODO maybe move to some numerics?
     {
     }
-    void groundCheck(Ball &ball, bool frame);
-    void collision(Ball &ball1, Ball &ball2, bool frame);
+    void groundCheck(Ball &ball);
+    void collision(Ball &ball1, Ball &ball2);
 };
 
 }

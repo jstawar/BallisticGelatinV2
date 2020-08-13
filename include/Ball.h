@@ -6,35 +6,36 @@
 class Ball
 {
 protected:
-    utilities::Vectors vectors[2];
+    utilities::Vectors vectors;
     double mass;
     double radius;
 public:
     Ball(utilities::Vectors vectors, double mass, double radius)
-        : mass(mass),
+        : vectors(vectors),
+          mass(mass),
           radius(radius)
     {
-        this->vectors[0] = vectors;
+
     }
-    utilities::Vectors &getVectors(bool frame)
+    utilities::Vectors &getVectors()
     {
-        return vectors[frame];
+        return vectors;
     }
     double getMass() const
     {
         return mass;
     }
-    const utilities::VectorXY &getPosition(bool frame) const
+    const utilities::VectorXY &getPosition() const
     {
-        return vectors[frame].position;
+        return vectors.position;
     }
-    const utilities::VectorXY &getVelocity(bool frame) const
+    const utilities::VectorXY &getVelocity() const
     {
-        return vectors[frame].velocity;
+        return vectors.velocity;
     }
-    const utilities::VectorXY &getForce(bool frame) const
+    const utilities::VectorXY &getForce() const
     {
-        return vectors[frame].force;
+        return vectors.force;
     }
     double getRadius() const
     {

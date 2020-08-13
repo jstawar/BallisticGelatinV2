@@ -29,7 +29,7 @@ public:
     {
         return springConnections;
     }
-    void nextFrame(bool frame);
+    void nextFrame();
 };
 
 #endif // SHIELD_H

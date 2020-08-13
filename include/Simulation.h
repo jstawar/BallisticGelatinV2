@@ -13,7 +13,6 @@ private:
     Shield *shield;
     Bullet *bullet;
     physics::Collision collisions;
-    bool frameForBalls; // 0 or 1
     unsigned int frameNum;
 public:
     Simulation(const Settings &settings);
@@ -21,10 +20,6 @@ public:
     const Shield *getShield() const
     {
         return shield;
-    }
-    bool getFrame() const
-    {
-        return frameForBalls;
     }
     const Bullet *getBullet() const
     {

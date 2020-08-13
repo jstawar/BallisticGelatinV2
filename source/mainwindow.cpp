@@ -75,7 +75,7 @@ void MainWindow::ballGL(const Ball &ball)
 
     glPushMatrix();
         glColor3d(1.0,1.0,1.0);
-        glTranslated(ball.getPosition(simulation->getFrame()).getX(), ball.getPosition(simulation->getFrame()).getY(), 0.0);
+        glTranslated(ball.getPosition().getX(), ball.getPosition().getY(), 0.0);
         glBegin(GL_LINE_LOOP);
             for (int a = 0; a < 360; a += 360 / sides)
             {
@@ -101,7 +101,6 @@ void MainWindow::plotShieldGL(const Shield &shield)
 void MainWindow::connectionPairGL(const SpringConnections &connections)
 {
     const std::map<SpringConnections::ConnectionType, std::vector<SpringConnections::SpringConnectionPair> > &connectionPairs = connections.getSpringConnectionPairs();
-    bool frame = simulation->getFrame();
     glPushMatrix();
         for(std::map<SpringConnections::ConnectionType, std::vector<SpringConnections::SpringConnectionPair> >::const_iterator it = connectionPairs.begin() ; it != connectionPairs.end() ; ++it)
         {
@@ -116,8 +115,8 @@ void MainWindow::connectionPairGL(const SpringConnections &connections)
                 glBegin(GL_LINES);
                     utilities::Color color = numerics::linearInterpolation(settings->simParams.colorMap, current.displacementRatio);
                     glColor3d(color.getRed(), color.getGreen(), color.getBlue());
-                    glVertex2d(current.start.getPosition(frame).getX(), current.start.getPosition(frame).getY());
-                    glVertex2d(current.finish.getPosition(frame).getX(), current.finish.getPosition(frame).getY());
+                    glVertex2d(current.start.getPosition().getX(), current.start.getPosition().getY());
+                    glVertex2d(current.finish.getPosition().getX(), current.finish.getPosition().getY());
                 glEnd();
                 glPopMatrix();
             }

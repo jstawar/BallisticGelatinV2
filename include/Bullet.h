@@ -21,7 +21,7 @@ public:
     {
 
     }
-    virtual void nextFrame(bool frame) = 0;
+    virtual void nextFrame() = 0;
     virtual void initialize() = 0;
     const std::vector<Ball> &getBalls() const
     {
@@ -39,12 +39,12 @@ public:
     {
         return mass;
     }
-    void calcVelocity(bool frame)
+    void calcVelocity()
     {
         velocity.clear();
         for(unsigned int i = 0 ; i < balls.size() ; i++)
         {
-            velocity.translate(balls[i].getVelocity(frame));
+            velocity.translate(balls[i].getVelocity());
         }
         double scale = balls.size();
         velocity.scale(utilities::VectorXY(1.0/scale, 1.0/scale));
@@ -64,7 +64,7 @@ class BulletBall: public Bullet
 public:
     BulletBall(const Settings &settings);
     virtual void initialize() override;
-    virtual void nextFrame(bool frame) override;
+    virtual void nextFrame() override;
 };
 
 #endif // BULLET_H

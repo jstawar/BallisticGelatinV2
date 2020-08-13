@@ -55,7 +55,7 @@ public:
     {
         return connectionPairs;
     }
-    void nextFrame(bool frame);
+    void nextFrame();
 };
 
 

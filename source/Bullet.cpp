@@ -17,10 +17,10 @@ void BulletBall::initialize()
     balls.push_back(current);
 
     mass = settings.simParams.massBullet;
-    calcVelocity(false);
+    calcVelocity();
 }
 
-void BulletBall::nextFrame(bool frame)
+void BulletBall::nextFrame()
 {
    // double newX = balls[0].getVectors(frame).position.getX() + balls[0].getVectors(frame).velocity.getX() * settings.calcParams.dt;
   //  balls[0].getVectors(!frame).position.setX(newX);
@@ -30,7 +30,7 @@ void BulletBall::nextFrame(bool frame)
     // this guy has only gravity
     utilities::VectorXY gravityForce(0.0, -settings.calcParams.gAcc); // = physics::gravityForce(settings.calcParams.gAcc,mass);
 
-    calcVelocity(!frame);
+    calcVelocity();
 
     // KILL ME
     /*

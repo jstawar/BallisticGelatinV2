@@ -6,7 +6,7 @@ Shield::Shield(const Settings &settings)
     initialize();
 }
 
-void Shield::nextFrame(bool frame)
+void Shield::nextFrame()
 {
 
 }
@@ -39,7 +39,7 @@ void Shield::initialize()
 
     for(unsigned int i = 0 ; i < balls.size() ; i++)
     {
-        balls[i].getVectors(false).position.translate(settings.simParams.initialShieldPosition);
+        balls[i].getVectors().position.translate(settings.simParams.initialShieldPosition);
     }
 
     springConnections = new SpringConnections(settings, balls);

@@ -84,7 +84,7 @@ void SpringConnections::addRightUpConnections()
     }
 }
 
-void SpringConnections::nextFrame(bool frame)
+void SpringConnections::nextFrame()
 {
     for(std::map<SpringConnections::ConnectionType, std::vector<SpringConnections::SpringConnectionPair> >::iterator itOuter = connectionPairs.begin() ; itOuter != connectionPairs.end() ; ++itOuter)
     {
@@ -98,7 +98,7 @@ void SpringConnections::nextFrame(bool frame)
                 continue;
             }
             // check for connections that should break
-            double currentLength = numerics::distance(it->start.getPosition(frame), it->finish.getPosition(frame));
+            double currentLength = numerics::distance(it->start.getPosition(), it->finish.getPosition());
             if( it->breakLengthDown < currentLength ||
                 it->breakLengthUp > currentLength )
             {
