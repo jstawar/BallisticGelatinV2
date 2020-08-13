@@ -4,6 +4,7 @@
 #include "Shield.h"
 #include "Settings.h"
 #include "Bullet.h"
+#include "Bullets.h"
 #include "Physics.h"
 
 class Simulation

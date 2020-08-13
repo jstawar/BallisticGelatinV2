@@ -21,6 +21,7 @@ SOURCES += \
     main.cpp \
     source/Ball.cpp \
     source/Bullet.cpp \
+    source/Bullets.cpp \
     source/Numerics.cpp \
     source/Physics.cpp \
     source/Settings.cpp \
@@ -32,6 +33,7 @@ SOURCES += \
 HEADERS += \
     include/Ball.h \
     include/Bullet.h \
+    include/Bullets.h \
     include/Numerics.h \
     include/Physics.h \
     include/Settings.h \

@@ -67,15 +67,4 @@ public:
     virtual void nextFrame(bool frame) override;
 };
 
-class BulletAK47: public Bullet
-{
-public:
-    BulletAK47(const Settings &settings);
-    virtual void initialize() override;
-    virtual void nextFrame(bool frame) override
-    {
-        // TODO
-    }
-};
-
 #endif // BULLET_H
