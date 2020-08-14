@@ -29,10 +29,11 @@ void Bullet::nextFrame()
     for(unsigned int i = 0 ; i < balls.size() ; i++)
     {
         balls[i].getVectors().acceleration.clear();
-        balls[i].getVectors().acceleration.y -= settings.calcParams.gAcc;
+        if( settings.calcParams.enableGravity )
+            balls[i].getVectors().acceleration.y -= settings.calcParams.gAcc;
     }
     // get all the forces from springs
-    if (springConnections)
+    if(springConnections)
         springConnections->nextFrame();
 
     // new velocity and position
