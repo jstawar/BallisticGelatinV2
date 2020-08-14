@@ -3,16 +3,6 @@
 namespace physics
 {
 
-utilities::VectorXY gravityForce(double gAcc, double mass)
-{
-    return gAcc * mass;
-}
-
-utilities::VectorXY springForce(double k, double mass, double length, double restLength)
-{
-
-}
-
 void Collision::groundCheck(Ball &ball)
 {
     if( ball.getPosition().y - ball.getRadius() < 0.0 )
@@ -52,5 +42,133 @@ void Collision::collision(Ball &ball1, Ball &ball2)
     }
 }
 
+OptimisedCollisions::OptimisedCollisions(const Settings &settings, unsigned int numBuckets)
+    : settings(settings),
+      numBuckets(numBuckets),
+      dl(1.0/static_cast<double>(numBuckets))
+{
+    buckets = new std::vector<Ball*>*[numBuckets];
+    for(unsigned int i = 0 ; i < numBuckets ; i++ )
+    {
+        buckets[i] = new std::vector<Ball*>[numBuckets];
+    }
+}
+
+void OptimisedCollisions::addBalls(std::vector<Ball> &balls)
+{
+    for(unsigned int i = 0 ; i < balls.size() ; i++)
+    {
+        ballsPointers.push_back( &balls[i] );
+    }
+}
+
+void OptimisedCollisions::fillBuckets()
+{
+    // first clear all the buckets
+    for(unsigned int i = 0 ; i < numBuckets ; i++)
+    {
+        for(unsigned int j = 0 ; j < numBuckets ; j++)
+        {
+            buckets[i][j].clear();
+        }
+    }
+
+    // fill buckets
+    unsigned int bucketX = 0;
+    unsigned int bucketY = 0;
+    for(unsigned int i = 0 ; i < ballsPointers.size() ; i++)
+    {
+        Ball *current = ballsPointers[i];
+        if( current->getPosition().x < 0 )
+        {
+            bucketX = 0;
+        }
+        else
+        {
+            bucketX = static_cast<unsigned int>(current->getPosition().x / dl);
+            if(bucketX >= numBuckets)
+                bucketX = numBuckets - 1;
+        }
+        if( current->getPosition().y < 0 )
+        {
+            bucketX = 0;
+        }
+        else
+        {
+            bucketY = static_cast<unsigned int>(current->getPosition().y / dl);
+            if(bucketY >= numBuckets)
+                bucketY = numBuckets - 1;
+        }
+
+       // std::cout << "B(" << bucketX << ", " << bucketY << ") <- (" << current->getPosition().x << ", " << current->getPosition().y << ")\n";
+
+        buckets[bucketX][bucketY].push_back(ballsPointers[i]);
+    }
+}
+
+void OptimisedCollisions::nextFrame()
+{
+    // first we have to fill buckets
+    fillBuckets();
+
+    //next collisions inside a bucket and with surrounding buckets
+    for(unsigned int i = 0 ; i < numBuckets ; i++)
+    {
+        for(unsigned int j = 0 ; j < numBuckets ; j++)
+        {
+            // inside a bucket
+            std::vector<Ball*> &currentBucket = buckets[j][i];
+            for(unsigned n = 0 ; n < currentBucket.size() ; n++)
+            {
+                for(unsigned m = n+1 ; m < currentBucket.size() ; m++)
+                {
+                    collision.collision( *currentBucket[n], *currentBucket[m] );
+                }
+
+                // ground check only for those in the lowest bucket
+                if(settings.calcParams.checkForGround && j == 0)
+                {
+                    collision.groundCheck(*currentBucket[n]);
+                }
+            }
+            // next right
+            if( j < numBuckets - 1 )
+            {
+                std::vector<Ball*> &currentBucketNextRight = buckets[j+1][i];
+                for(unsigned n = 0 ; n < currentBucket.size() ; n++)
+                {
+                    for(unsigned m = 0 ; m < currentBucketNextRight.size() ; m++)
+                    {
+                        collision.collision( *currentBucket[n], *currentBucketNextRight[m] );
+                    }
+                }
+            }
+            // next up
+            if( i < numBuckets - 1 )
+            {
+                std::vector<Ball*> &currentBucketNextRight = buckets[j][i+1];
+                for(unsigned n = 0 ; n < currentBucket.size() ; n++)
+                {
+                    for(unsigned m = 0 ; m < currentBucketNextRight.size() ; m++)
+                    {
+                        collision.collision( *currentBucket[n], *currentBucketNextRight[m] );
+                    }
+                }
+            }
+            // next right-up
+            if( i < numBuckets - 1 && j < numBuckets - 1 )
+            {
+                std::vector<Ball*> &currentBucketNextRight = buckets[j+1][i+1];
+                for(unsigned n = 0 ; n < currentBucket.size() ; n++)
+                {
+                    for(unsigned m = 0 ; m < currentBucketNextRight.size() ; m++)
+                    {
+                        collision.collision( *currentBucket[n], *currentBucketNextRight[m] );
+                    }
+                }
+            }
+        }
+    }
+}
 
 }

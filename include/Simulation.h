@@ -13,7 +13,10 @@ private:
     Shield *shield;
     Bullet *bullet;
     physics::Collision collisions;
+    physics::OptimisedCollisions optimisedCollisions;
     unsigned int frameNum;
+    unsigned int totalBalls;
+    void countActiveConnections();
 public:
     Simulation(const Settings &settings);
     void nextFrame();
@@ -29,9 +32,27 @@ public:
     {
         return frameNum;
     }
+    unsigned int getTotalBalls() const
+    {
+        return totalBalls;
+    }
+    unsigned int getNumActiveConnections() const
+    {
+        unsigned int active = 0;
+        if( shield && shield->getSpringConnections() )
+        {
+            active += shield->getSpringConnections()->getActiveConnections();
+        }
+        if( bullet && bullet->getSpringConnections() )
+        {
+            active += bullet->getSpringConnections()->getActiveConnections();
+        }
+        return active;
+    }
     ~Simulation()
     {
         delete bullet;
+        delete shield;
     }
 };
 

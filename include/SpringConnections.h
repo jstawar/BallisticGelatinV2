@@ -25,6 +25,7 @@ private:
     std::vector<Ball> &balls;
     std::map<ConnectionType, std::vector<SpringConnectionPair> > connectionPairs;
     std::map<unsigned int, TriangleConnection> trianglesMap;
+    unsigned int activeConnections;
 
     void addConnections();
     void addRightConnections();
@@ -74,6 +75,10 @@ public:
         return trianglesMap;
     }
     void nextFrame();
+    unsigned int getActiveConnections() const
+    {
+        return activeConnections;
+    }
 };
 
 

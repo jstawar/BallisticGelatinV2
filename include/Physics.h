@@ -5,11 +5,10 @@
 #include "Settings.h"
 #include "Ball.h"
 
+#include <vector>
+
 namespace physics
 {
-
-utilities::VectorXY gravityForce(double gAcc, double mass);
-utilities::VectorXY springForce(double k, double mass, double length, double restLength);
 
 class Collision
 {
@@ -25,6 +24,22 @@ public:
     }
     void groundCheck(Ball &ball);
     void collision(Ball &ball1, Ball &ball2);
+};
+
+class OptimisedCollisions
+{
+private:
+    const Settings &settings;
+    unsigned int numBuckets;
+    const double dl;
+    std::vector<Ball*> **buckets;
+    std::vector<Ball*> ballsPointers;
+    void fillBuckets();
+    Collision collision;
+public:
+    OptimisedCollisions(const Settings &settings, unsigned int numBuckets);
+    void addBalls(std::vector<Ball> &balls);
+    void nextFrame();
 };
 
 }

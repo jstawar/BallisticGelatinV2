@@ -15,6 +15,8 @@ struct Settings
         double dt; // [s]
         double gAcc; // [m/s^2]
         double tMax; // [s]
+        bool enableGravity;
+        bool checkForGround;
         CalculationParameters();
     };
     struct SimulationParameters

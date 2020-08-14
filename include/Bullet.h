@@ -59,6 +59,10 @@ public:
     {
         return mass * velocity.normSquared() / 2.0;
     }
+    const SpringConnections *getSpringConnections() const
+    {
+        return springConnections;
+    }
 };
 
 class BulletBall: public Bullet

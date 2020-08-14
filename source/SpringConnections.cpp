@@ -7,7 +7,8 @@
 
 SpringConnections::SpringConnections(const Settings &settings, std::vector<Ball> &balls)
     : settings(settings),
-      balls(balls)
+      balls(balls),
+      activeConnections(0)
 {
     addConnections();
     addTriangles();
@@ -133,6 +134,7 @@ void SpringConnections::addRightConnections()
             double breakLengthDown = restLength * settings.simParams.compressionBreakCoefficient;
             SpringConnectionPair connectionPair( balls[current], balls[current+1], restLength, true, breakLengthUp, breakLengthDown);
             connectionPairs[Right].push_back(connectionPair);
+            activeConnections++;
         }
     }
 }
@@ -149,6 +151,7 @@ void SpringConnections::addLeftUpConnections()
             double breakLengthDown = restLength * settings.simParams.compressionBreakCoefficient;
             SpringConnectionPair connectionPair( balls[current], balls[current+settings.simParams.numXShield-1], restLength, true, breakLengthUp, breakLengthDown);
             connectionPairs[LeftUp].push_back(connectionPair);
+            activeConnections++;
         }
     }
 }
@@ -165,6 +168,7 @@ void SpringConnections::addUpConnections()
             double breakLengthDown = restLength * settings.simParams.compressionBreakCoefficient;
             SpringConnectionPair connectionPair( balls[current], balls[current+settings.simParams.numXShield], restLength, true, breakLengthUp, breakLengthDown);
             connectionPairs[Up].push_back(connectionPair);
+            activeConnections++;
         }
     }
 }
@@ -181,6 +185,7 @@ void SpringConnections::addRightUpConnections()
             double breakLengthDown = restLength * settings.simParams.compressionBreakCoefficient;
             SpringConnectionPair connectionPair( balls[current], balls[current+settings.simParams.numXShield+1], restLength, true, breakLengthUp, breakLengthDown);
             connectionPairs[RightUp].push_back(connectionPair);
+            activeConnections++;
         }
     }
 }
@@ -207,6 +212,7 @@ void SpringConnections::nextFrame()
             //    std::cout << it->breakLengthDown << "\n";
             //    std::cout << currentLength << "\n";
                 it->isActive = false;
+                activeConnections--;
             }
             else
             {
