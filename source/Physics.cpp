@@ -100,8 +100,6 @@ void OptimisedCollisions::fillBuckets()
                 bucketY = numBuckets - 1;
         }
 
-       // std::cout << "B(" << bucketX << ", " << bucketY << ") <- (" << current->getPosition().x << ", " << current->getPosition().y << ")\n";
-
         buckets[bucketX][bucketY].push_back(ballsPointers[i]);
     }
 }

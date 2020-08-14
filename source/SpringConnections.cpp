@@ -208,15 +208,11 @@ void SpringConnections::nextFrame()
             if( it->breakLengthUp < currentLength ||
                 it->breakLengthDown > currentLength )
             {
-            //    std::cout << it->breakLengthUp << "\n";
-            //    std::cout << it->breakLengthDown << "\n";
-            //    std::cout << currentLength << "\n";
                 it->isActive = false;
                 activeConnections--;
             }
             else
             {
-                // TODO - check that as I've changed forces to accelerations and this requires mass calc
                 // now add spring forces to balls
                 double dLength = currentLength - it->restLength;
                 double maxdL = dLength < 0.0 ? (settings.simParams.compressionBreakCoefficient - 1.0) : (settings.simParams.extensionBreakCoefficient - 1.0);

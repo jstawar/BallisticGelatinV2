@@ -35,7 +35,7 @@ public:
     }
     virtual ~Bullet()
     {
-        // so far nothing allocated
+        delete springConnections;
     }
     double getMass() const
     {
