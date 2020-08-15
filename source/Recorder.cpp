@@ -16,9 +16,8 @@ void Recorder::save() const
     // save the frames
     for(unsigned int i = 0 ; i < frames.size() ; i++)
     {
-        // just for test - add this fileName
-       // QString name(QString(QStringLiteral("/Users/jakubstawarczyk/renders/test_%1.jpg").arg(i) ) );
-       // frames[i].save(name);
+        QString name(QString(QStringLiteral("%1_%2.jpg").arg(fileName.c_str(), static_cast<int>(i) ) ) );
+        frames[i].save(name);
     }
 }
 

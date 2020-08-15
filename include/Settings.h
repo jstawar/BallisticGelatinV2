@@ -60,6 +60,7 @@ struct Settings
         unsigned int totalSeconds; // total seconds of rendered movie
         unsigned int captureEveryNth; // capture every n-th render one frame
         std::string fileName;
+        bool record;
     };
 
     CalculationParameters calcParams;

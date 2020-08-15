@@ -23,7 +23,9 @@ MainWindow::MainWindow(QWidget *)
     Settings::SimulationParameters simParams;
     settings = new Settings(calcParams, simParams);
     simulation = new Simulation(*settings);
-    recorder = new Recorder(*settings);
+    recorder = nullptr;
+    if( settings->recorderParams.record )
+        recorder = new Recorder(*settings);
 
     animationON = false;
     plotShield = true;
