@@ -42,11 +42,13 @@ void Collision::collision(Ball &ball1, Ball &ball2)
     }
 }
 
-OptimisedCollisions::OptimisedCollisions(const Settings &settings, unsigned int numBuckets)
+OptimisedCollisions::OptimisedCollisions(const Settings &settings, unsigned int numBuckets, double maxX, double maxY)
     : settings(settings),
       numBuckets(numBuckets),
-      dl(1.0/static_cast<double>(numBuckets))
+      dlX(maxX/static_cast<double>(numBuckets)),
+      dlY(maxY/static_cast<double>(numBuckets))
 {
+    // sqare grid of buckets
     buckets = new std::vector<Ball*>*[numBuckets];
     for(unsigned int i = 0 ; i < numBuckets ; i++ )
     {
@@ -85,7 +87,7 @@ void OptimisedCollisions::fillBuckets()
         }
         else
         {
-            bucketX = static_cast<unsigned int>(current->getPosition().x / dl);
+            bucketX = static_cast<unsigned int>(current->getPosition().x / dlX);
             if(bucketX >= numBuckets)
                 bucketX = numBuckets - 1;
         }
@@ -95,7 +97,7 @@ void OptimisedCollisions::fillBuckets()
         }
         else
         {
-            bucketY = static_cast<unsigned int>(current->getPosition().y / dl);
+            bucketY = static_cast<unsigned int>(current->getPosition().y / dlY);
             if(bucketY >= numBuckets)
                 bucketY = numBuckets - 1;
         }

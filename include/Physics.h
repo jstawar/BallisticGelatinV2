@@ -31,13 +31,14 @@ class OptimisedCollisions
 private:
     const Settings &settings;
     unsigned int numBuckets;
-    const double dl;
+    const double dlX;
+    const double dlY;
     std::vector<Ball*> **buckets;
     std::vector<Ball*> ballsPointers;
     void fillBuckets();
     Collision collision;
 public:
-    OptimisedCollisions(const Settings &settings, unsigned int numBuckets);
+    OptimisedCollisions(const Settings &settings, unsigned int numBuckets, double maxX, double maxY);
     void addBalls(std::vector<Ball> &balls);
     void nextFrame();
 };

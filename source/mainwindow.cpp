@@ -36,7 +36,9 @@ MainWindow::MainWindow(QWidget *)
 
 MainWindow::~MainWindow()
 {
-
+    delete context;
+    delete settings;
+    delete simulation;
 }
 
 void MainWindow::arrowGL()

@@ -4,7 +4,7 @@ Simulation::Simulation(const Settings &settings)
     : settings(settings),
       shield(new Shield(settings)), // TODO - selected from settings (ShieldFactory)
       bullet(new BulletBall(settings)), // TODO - this should be selected from settings (add BulletFactory)
-      optimisedCollisions(settings, 10),
+      optimisedCollisions(settings, 10, settings.simParams.shieldParams.dx * settings.simParams.shieldParams.numXShield, settings.simParams.shieldParams.dy * settings.simParams.shieldParams.numYShield ),
       frameNum(0),
       totalBalls(0),
       currentTime(0.0)
