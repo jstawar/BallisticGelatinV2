@@ -12,6 +12,7 @@ class Shield
 {
 private:
     const Settings &settings;
+    // TODO - please make me const - thou shall NOT alter the container after fully initialized! altering the elements is ok but NO shuffling!!!
     std::vector<Ball> balls;
     SpringConnections *springConnections;
     void initialize();

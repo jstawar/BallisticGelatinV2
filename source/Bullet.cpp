@@ -18,6 +18,8 @@ void BulletBall::initialize()
 
     mass = settings.simParams.bulletParams.massBall;
     calcVelocity();
+
+    // DO NOT ALTER BALL VECTOR CONTAINER AFTER THAT POINT!!!
 }
 
 void Bullet::nextFrame()
@@ -36,11 +38,11 @@ void Bullet::nextFrame()
     if(springConnections)
         springConnections->nextFrame();
 
-    // new velocity and position
+    // new velocity and position - leapfrog algorithm
     for(unsigned int i = 0 ; i < balls.size() ; i++)
     {
-        balls[i].getVectors().velocity.x += 1.0/2.0 * settings.calcParams.dt * balls[i].getAcceleration().x;
-        balls[i].getVectors().velocity.y += 1.0/2.0 * settings.calcParams.dt * balls[i].getAcceleration().y;
+        balls[i].getVectors().velocity.x += settings.calcParams.halfdt * balls[i].getAcceleration().x;
+        balls[i].getVectors().velocity.y += settings.calcParams.halfdt * balls[i].getAcceleration().y;
 
         balls[i].getVectors().position.x += balls[i].getVelocity().x * settings.calcParams.dt;
         balls[i].getVectors().position.y += balls[i].getVelocity().y * settings.calcParams.dt;

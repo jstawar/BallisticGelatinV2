@@ -22,11 +22,11 @@ void Shield::nextFrame()
     if(springConnections)
         springConnections->nextFrame();
 
-    // new velocity and position
+    // new velocity and position - leapfrog algorithm
     for(unsigned int i = 0 ; i < balls.size() ; i++)
     {
-        balls[i].getVectors().velocity.x += 1.0/2.0 * settings.calcParams.dt * balls[i].getAcceleration().x;
-        balls[i].getVectors().velocity.y += 1.0/2.0 * settings.calcParams.dt * balls[i].getAcceleration().y;
+        balls[i].getVectors().velocity.x += settings.calcParams.halfdt * balls[i].getAcceleration().x;
+        balls[i].getVectors().velocity.y += settings.calcParams.halfdt * balls[i].getAcceleration().y;
 
         balls[i].getVectors().position.x += balls[i].getVelocity().x * settings.calcParams.dt;
         balls[i].getVectors().position.y += balls[i].getVelocity().y * settings.calcParams.dt;
@@ -44,13 +44,14 @@ void Shield::initialize()
 
     balls.reserve( settings.simParams.shieldParams.numXShield * settings.simParams.shieldParams.numYShield );
 
+    // starting in point (0, 0)
     for(unsigned int i = 0 ; i < settings.simParams.shieldParams.numYShield ; i++)
     {
         current_y = i * dy;
         for(unsigned int j = 0 ; j < settings.simParams.shieldParams.numXShield ; j++)
         {
             current_x = j * dx;
-            // TODO - random small displacements etc.
+            // TODO - random small displacements etc.?
             utilities::VectorXY position(current_x, current_y);
             utilities::Vectors vectors(position, utilities::VectorXY(0.0, -1.0), utilities::VectorXY(0.0, 0.0) );
             Ball ball(vectors, settings.simParams.shieldParams.massBall, settings.simParams.shieldParams.radiusBall);
@@ -58,11 +59,13 @@ void Shield::initialize()
         }
     }
 
-
+    // translate to the desired position
     for(unsigned int i = 0 ; i < balls.size() ; i++)
     {
         balls[i].getVectors().position.translate(settings.simParams.shieldParams.initialPosition);
     }
 
     springConnections = new SpringConnections(settings, balls);
+
+    // DO NOT ALTER BALL VECTOR CONTAINER AFTER THAT POINT!!!
 }

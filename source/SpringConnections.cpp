@@ -4,6 +4,7 @@
 #include <iostream>
 
 // TODO - make it more generic for different cristalization methods
+// ShieldFactory might be a way to go
 
 SpringConnections::SpringConnections(const Settings &settings, std::vector<Ball> &balls)
     : settings(settings),
@@ -129,6 +130,7 @@ void SpringConnections::addRightConnections()
         for(unsigned int j = 0 ; j < settings.simParams.shieldParams.numXShield - 1 ; j++)
         {
             unsigned int current = settings.simParams.shieldParams.numXShield * i + j;
+            // RestLenths etc. are static but I call it only once so I can afford this shitty calc here
             double restLength = numerics::distance(balls[current].getPosition(), balls[current+1].getPosition());
             double breakLengthUp = restLength * settings.simParams.shieldParams.springParams.extensionBreakCoefficient;
             double breakLengthDown = restLength * settings.simParams.shieldParams.springParams.compressionBreakCoefficient;
@@ -218,7 +220,7 @@ void SpringConnections::nextFrame()
                 double maxdL = dLength < 0.0 ? (settings.simParams.shieldParams.springParams.compressionBreakCoefficient - 1.0) :
                                                (settings.simParams.shieldParams.springParams.extensionBreakCoefficient - 1.0);
                 maxdL *= it->restLength;
-                it->displacementRatio = dLength / maxdL;
+                it->displacementRatio = dLength / maxdL; // so we have our color - tension
                 double sinTheta = (it->start.getPosition().x - it->finish.getPosition().x)/currentLength;
                 double cosTheta = (it->start.getPosition().y - it->finish.getPosition().y)/currentLength;
                 // k * dL * angle

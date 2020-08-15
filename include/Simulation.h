@@ -13,7 +13,6 @@ private:
     const Settings &settings;
     Shield *shield;
     Bullet *bullet;
-    physics::Collision collisions;
     physics::OptimisedCollisions optimisedCollisions;
     unsigned int frameNum;
     unsigned int totalBalls;

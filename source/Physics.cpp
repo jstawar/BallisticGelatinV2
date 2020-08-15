@@ -21,6 +21,7 @@ void Collision::collision(Ball &ball1, Ball &ball2)
     d = sqrt(x21*x21 + y21*y21);
     if ( d <= r12)
     {
+        // TODO - rethink how to pass to OptimisedCollisions so ShieldBall - ShieldBall collision will have it constant and no recalc needed
        m21 = ball2.getMass()/ball1.getMass();
        vx21 = ball2.getVelocity().x - ball1.getVelocity().x;
        vy21 = ball2.getVelocity().y - ball1.getVelocity().y;
@@ -35,6 +36,7 @@ void Collision::collision(Ball &ball1, Ball &ball2)
        alpha = asin( dr );
        a = tan( gammav + alpha );
        dvx2 = -2.0 * ( vx21 + a * vy21) /( ( 1.0 + a * a ) * ( 1.0 + m21 ) );
+
        ball2.getVectors().velocity.x += dvx2;
        ball2.getVectors().velocity.y += a * dvx2;
        ball1.getVectors().velocity.x -= m21 * dvx2;
@@ -48,7 +50,9 @@ OptimisedCollisions::OptimisedCollisions(const Settings &settings, unsigned int 
       dlX(maxX/static_cast<double>(numBuckets)),
       dlY(maxY/static_cast<double>(numBuckets))
 {
-    // sqare grid of buckets
+    // square grid of buckets N x N
+    // bracket size has to be higher than 2 * radius of a ball. Not checking that yet - TODO
+    // optimized the number of brackets
     buckets = new std::vector<Ball*>*[numBuckets];
     for(unsigned int i = 0 ; i < numBuckets ; i++ )
     {
@@ -108,10 +112,10 @@ void OptimisedCollisions::fillBuckets()
 
 void OptimisedCollisions::nextFrame()
 {
-    // first we have to fill buckets
+    // first we have to fill the buckets
     fillBuckets();
 
-    //next collisions inside a bucket and with surrounding buckets
+    // next collisions inside a bucket and with surrounding buckets
     for(unsigned int i = 0 ; i < numBuckets ; i++)
     {
         for(unsigned int j = 0 ; j < numBuckets ; j++)

@@ -22,6 +22,7 @@ public:
     };
 private:
     const Settings &settings;
+    // thou shall NOT alter the containers after they are initialized - altering the elements in ok but NO shuffling!!!
     std::vector<Ball> &balls;
     std::map<ConnectionType, std::vector<SpringConnectionPair> > connectionPairs;
     std::map<unsigned int, TriangleConnection> trianglesMap;
@@ -54,11 +55,13 @@ public:
 
         }
     };
+    // TODO - for higher ball densities this has no visible effect - spring connections are sufficient
+    // it's not used for calculation at all - only for display triangles
     struct TriangleConnection
     {
         bool isActiveFlag;
         std::vector<SpringConnectionPair*> pairs;
-        Ball *first, *second, *third;
+        Ball *first, *second, *third; // KILL ME - not checking anywhere for valid pointers (who needs that? ;) "I know what I'm doing"... I hope)
         void calcIsActive();
         bool isActive() const
         {

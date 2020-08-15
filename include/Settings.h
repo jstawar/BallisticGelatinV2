@@ -15,6 +15,7 @@ struct Settings
         double dt; // [s]
         double gAcc; // [m/s^2]
         double tMax; // [s]
+        double halfdt; // [s] - not initialized
         bool enableGravity;
         bool checkForGround;
         std::map<double,utilities::Color> colorMap;
@@ -51,9 +52,16 @@ struct Settings
         BulletParameters bulletParams;
         SimulationParameters();
     };
+    struct RecorderParams
+    {
+        double framesPerSecond; // TODO - > 0 of course and make some checks
+        unsigned int totalSeconds; // total seconds of rendered movie
+        unsigned int captureEveryNth; // capture every n-th render one frame
+    };
 
     CalculationParameters calcParams;
     SimulationParameters simParams;
+    RecorderParams recorderParams;
 
     Settings(CalculationParameters calcParams, SimulationParameters simParams);
 };

@@ -14,6 +14,7 @@ class Collision
 {
 private:
     // used in internal calculation - not thread safe! (for now it's not a problem)
+    // TODD - for threads, most probably each thread will have it's own copy of Collusion class
     double x21, y21, r12, d, m21, vx21, vy21, gammav, gammaxy;
     double dgamma, dr, alpha, a, dvx2;
     const double pi2;
