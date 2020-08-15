@@ -30,6 +30,8 @@ struct Settings
     {
         unsigned int numXShield; // []
         unsigned int numYShield;  // []
+        double dx; // [m]
+        double dy; // [m]
         double massBall; // [kg]
         double radiusBall; // [m]
         SpringParameters springParams;

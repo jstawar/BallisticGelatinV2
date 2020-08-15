@@ -36,8 +36,8 @@ void Shield::nextFrame()
 void Shield::initialize()
 {
     // TODO check if any > 0 - in GUI disabled
-    double dx = 1.0/settings.simParams.shieldParams.numXShield;
-    double dy = 1.0/settings.simParams.shieldParams.numYShield;
+    double dx = settings.simParams.shieldParams.dx; // 1.0/settings.simParams.shieldParams.numXShield;
+    double dy = settings.simParams.shieldParams.dy; // 1.0/settings.simParams.shieldParams.numYShield;
 
     double current_x = 0.0;
     double current_y = 0.0;

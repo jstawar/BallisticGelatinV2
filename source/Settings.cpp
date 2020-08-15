@@ -4,11 +4,13 @@
 
 Settings::SimulationParameters::SimulationParameters()
 {
-    shieldParams.numXShield = 100;
-    shieldParams.numYShield = 100;
+    shieldParams.numXShield = 50;
+    shieldParams.numYShield = 75;
+    shieldParams.dx = 0.01;
+    shieldParams.dy = 0.01;
     shieldParams.massBall = 0.0005;
-    shieldParams.radiusBall = 0.002;
-    shieldParams.initialPosition = utilities::VectorXY(0.0, 0.01);
+    shieldParams.radiusBall = 0.0025;
+    shieldParams.initialPosition = utilities::VectorXY(0.0, 0.0);
     shieldParams.springParams.springCoefficient = 100000.0;
     shieldParams.springParams.extensionBreakCoefficient = 1.15;
     shieldParams.springParams.compressionBreakCoefficient = 0.65;

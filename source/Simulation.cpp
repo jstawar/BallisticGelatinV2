@@ -1,11 +1,13 @@
 #include "Simulation.h"
 
 Simulation::Simulation(const Settings &settings)
-    : shield(new Shield(settings)), // TODO - selected from settings (ShieldFactory)
+    : settings(settings),
+      shield(new Shield(settings)), // TODO - selected from settings (ShieldFactory)
       bullet(new BulletBall(settings)), // TODO - this should be selected from settings (add BulletFactory)
       optimisedCollisions(settings, 10),
       frameNum(0),
-      totalBalls(0)
+      totalBalls(0),
+      currentTime(0.0)
 {
     if( shield )
     {
@@ -32,6 +34,7 @@ void Simulation::nextFrame()
 
     // update to next - this comes last for sure
     frameNum++;
+    currentTime += settings.calcParams.dt;
 }
 
 void Simulation::countActiveConnections()

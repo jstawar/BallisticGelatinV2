@@ -10,12 +10,14 @@
 class Simulation
 {
 private:
+    const Settings &settings;
     Shield *shield;
     Bullet *bullet;
     physics::Collision collisions;
     physics::OptimisedCollisions optimisedCollisions;
     unsigned int frameNum;
     unsigned int totalBalls;
+    double currentTime;
     void countActiveConnections();
 public:
     Simulation(const Settings &settings);
@@ -48,6 +50,10 @@ public:
             active += bullet->getSpringConnections()->getActiveConnections();
         }
         return active;
+    }
+    double getCurrentTime() const
+    {
+        return currentTime;
     }
     ~Simulation()
     {
