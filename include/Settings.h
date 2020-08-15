@@ -37,6 +37,10 @@ struct Settings
         double dy; // [m]
         double massBall; // [kg]
         double radiusBall; // [m]
+        double mass; // [kg]
+        double fillingPercentage; //[]
+        double densityArea; // [kg/m^2]
+        double densityVolume; // [kg/m^3]
         SpringParameters springParams;
         utilities::VectorXY initialPosition; // [m]
     };

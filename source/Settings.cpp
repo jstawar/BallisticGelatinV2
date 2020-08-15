@@ -11,9 +11,12 @@ Settings::SimulationParameters::SimulationParameters()
     shieldParams.dx = 0.003;
     shieldParams.dy = 0.003;
     shieldParams.massBall = 0.0005;
-    // maybe radius dependent on dx and dy? say 2* radius filling 90% of space between?
+    shieldParams.mass = shieldParams.massBall * shieldParams.numXShield * shieldParams.numYShield;
     // TODO - collision radius and display radius - will look nicer, make it blend. Ball filled with color representing tension (no spring attached - red)
-    shieldParams.radiusBall = 0.0005; // has to be smaller than min(dx/2, dy/2) - add checks - TODO
+    shieldParams.fillingPercentage = 0.6;
+    shieldParams.radiusBall = std::min( shieldParams.dx, shieldParams.dy ) * shieldParams.fillingPercentage / 2.0; // TODO - filling from GUI
+    // now we can calculate the densities
+    // shieldParams.shieldDensityArea = shieldParams.massBall * shieldParams.numXShield * shieldParams.numYShield / M_PI * shieldParams.radiusBall * shieldParams.radiusBall
     shieldParams.initialPosition = utilities::VectorXY(0.0, 0.0);
     // TODO - different spring coefficients for different connection/cristalization (more realistic modelling of materials like concrete)
     shieldParams.springParams.springCoefficient = 100000.0;
@@ -60,7 +63,7 @@ Settings::Settings(CalculationParameters calcParams, SimulationParameters simPar
     recorderParams.record = false;
     // this is calculated based on other inputs
     double totalFramesThatWillBeCalced = calcParams.tMax / calcParams.dt;
-    recorderParams.captureEveryNth = static_cast<unsigned int>( totalFramesThatWillBeCalced / static_cast<double>(recorderParams.totalSeconds / recorderParams.framesPerSecond) );
+    recorderParams.captureEveryNth = static_cast<unsigned int>( totalFramesThatWillBeCalced / static_cast<double>(recorderParams.totalSeconds * recorderParams.framesPerSecond) );
 
     // TODO - calculate density of objects for selected inputs(remember about cristalization differences)
     // TODO - maybe add an option to set density and other params are recalculated?

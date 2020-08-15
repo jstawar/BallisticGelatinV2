@@ -231,6 +231,7 @@ void MainWindow::plotColorMapGL()
 {
     glPushMatrix();
     glTranslated(0.0, -0.3, 0.0);
+    glScaled(0.25,1.0,1.0);
     unsigned int num = 25;
     double dx = 1.0/static_cast<double>(num);
     double current = 0.0;
@@ -262,7 +263,8 @@ void MainWindow::paintEvent(QPaintEvent *)
     glClear(GL_COLOR_BUFFER_BIT);
 
     glPushMatrix();
-        glTranslated(-0.25,-0.25,0.0);
+        glScaled(2.0,2.0,1.0);
+        glTranslated(0.0,-0.15,0.0);
         coordinateSystemGL();
         if(plotShield && simulation->getShield())
             plotShieldGL(*simulation->getShield());
@@ -276,7 +278,7 @@ void MainWindow::paintEvent(QPaintEvent *)
         plotColorMapGL();
     glPopMatrix();
 
-    if( recorder && simulation->getFrameNum() % settings->recorderParams.captureEveryNth == 0 )
+    if( animationON && recorder && simulation->getFrameNum() % settings->recorderParams.captureEveryNth == 0 )
     {
         // pass the pixels info to the function
         recorder->captureFrame(grabFramebuffer());
@@ -287,8 +289,8 @@ void MainWindow::paintEvent(QPaintEvent *)
         animationON = false;
         setAnimating(false);
         // save if recording - TODO - make sure we are saving only once
-        if( recorder )
-            recorder->save();
+      //  if( recorder )
+       //     recorder->save();
     }
 
     if(animationON)
