@@ -246,5 +246,11 @@ void MainWindow::paintEvent(QPaintEvent *)
         printText();
     glPopMatrix();
 
+    if(simulation->getCurrentTime() > settings->calcParams.tMax)
+    {
+        animationON = false;
+        setAnimating(false);
+    }
+
     simulation->nextFrame();
 }

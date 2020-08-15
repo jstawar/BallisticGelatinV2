@@ -27,7 +27,7 @@ Settings::SimulationParameters::SimulationParameters()
 Settings::CalculationParameters::CalculationParameters()
     : dt(0.000003),
       gAcc(9.81),
-      tMax(4.0),
+      tMax(0.05),
       enableGravity(true),
       checkForGround(false)
 {
