@@ -196,10 +196,6 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
     {
         plotBullet = !plotBullet;
     }
-    else if(e->key() == Qt::Key_F) // TODO - just for testing frame by frame
-    {
-        simulation->nextFrame();
-    }
 }
 
 void MainWindow::setAnimating(bool enabled)
@@ -224,7 +220,7 @@ void MainWindow::printTextGL()
         painter.drawText(QPointF(100.0, 50.0), QString(QStringLiteral("E_k = %1 [J]").arg(energy) ) );
         painter.drawText(QPointF(100.0, 70.0), QString(QStringLiteral("V = %1 [m/s]").arg(velocity) ) );
     }
-    painter.drawText(QPointF(100.0, 90.0), QString(QStringLiteral("time = %1 [s]").arg(simulation->getCurrentTime()) ) );
+    painter.drawText(QPointF(100.0, 90.0), QString(QStringLiteral("time = %1 [ms]").arg(simulation->getCurrentTime() * 1000) ) );
     painter.drawText(QPointF(100.0, 110.0), QString(QStringLiteral("#balls = %1 []").arg(simulation->getTotalBalls() ) ) );
     painter.drawText(QPointF(100.0, 130.0), QString(QStringLiteral("k = %1 [N/m]").arg(settings->simParams.shieldParams.springParams.springCoefficient ) ) );
     painter.drawText(QPointF(100.0, 150.0), QString(QStringLiteral("#AC = %1 []").arg(simulation->getNumActiveConnections() ) ) );
@@ -295,5 +291,6 @@ void MainWindow::paintEvent(QPaintEvent *)
             recorder->save();
     }
 
-    simulation->nextFrame();
+    if(animationON)
+        simulation->nextFrame();
 }

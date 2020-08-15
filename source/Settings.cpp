@@ -56,7 +56,7 @@ Settings::Settings(CalculationParameters calcParams, SimulationParameters simPar
 {
     recorderParams.totalSeconds = 15;
     recorderParams.framesPerSecond = 30;
-    recorderParams.fileName = "/Users/jakubstawarczyk/renders/test";
+    recorderParams.fileName = "/Users/jakubstawarczyk/renders/test"; // TODO - from GUI location and fileName
     recorderParams.record = false;
     // this is calculated based on other inputs
     double totalFramesThatWillBeCalced = calcParams.tMax / calcParams.dt;
