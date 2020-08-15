@@ -9,6 +9,8 @@ protected:
     utilities::Vectors vectors;
     double mass;
     double radius;
+    // TODO - color of a ball? different radius for display and collision
+    // maybe a blend of all the connections and if no connections then = 1?
 public:
     Ball(utilities::Vectors vectors, double mass, double radius)
         : vectors(vectors),

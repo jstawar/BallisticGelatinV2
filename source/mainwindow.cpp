@@ -281,13 +281,16 @@ void MainWindow::paintEvent(QPaintEvent *)
     if( recorder && simulation->getFrameNum() % settings->recorderParams.captureEveryNth == 0 )
     {
         // pass the pixels info to the function
-        recorder->captureFrame();
+        recorder->captureFrame(grabFramebuffer());
     }
 
     if(simulation->getCurrentTime() > settings->calcParams.tMax)
     {
         animationON = false;
         setAnimating(false);
+        // save if recording - TODO - make sure we are saving only once
+        if( recorder )
+            recorder->save();
     }
 
     simulation->nextFrame();
