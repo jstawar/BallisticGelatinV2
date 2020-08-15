@@ -22,8 +22,8 @@ MainWindow::MainWindow(QWidget *)
     Settings::CalculationParameters calcParams;
     Settings::SimulationParameters simParams;
     settings = new Settings(calcParams, simParams);
-
     simulation = new Simulation(*settings);
+    recorder = new Recorder(*settings);
 
     animationON = false;
     plotShield = true;
@@ -256,6 +256,8 @@ void MainWindow::plotColorMapGL()
     glPopMatrix();
 }
 
+// TODO - create some ENGINE function - this is ugly
+// TODO - add Plotting of V(t), V(x), Ek(t), Ek(x), p(t), p(x)
 void MainWindow::paintEvent(QPaintEvent *)
 {
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -275,6 +277,12 @@ void MainWindow::paintEvent(QPaintEvent *)
         printTextGL();
         plotColorMapGL();
     glPopMatrix();
+
+    if( recorder && simulation->getFrameNum() % settings->recorderParams.captureEveryNth == 0 )
+    {
+        // pass the pixels info to the function
+        recorder->captureFrame();
+    }
 
     if(simulation->getCurrentTime() > settings->calcParams.tMax)
     {

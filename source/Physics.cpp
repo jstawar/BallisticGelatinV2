@@ -175,4 +175,9 @@ void OptimisedCollisions::nextFrame()
     }
 }
 
+OptimisedCollisions::~OptimisedCollisions()
+{
+    // TODO - clear mem
+}
+
 }

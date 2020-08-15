@@ -56,6 +56,7 @@ Settings::Settings(CalculationParameters calcParams, SimulationParameters simPar
 {
     recorderParams.totalSeconds = 15;
     recorderParams.framesPerSecond = 30;
+    recorderParams.fileName = "dupa3.avi";
     // this is calculated based on other inputs
     double totalFramesThatWillBeCalced = calcParams.tMax / calcParams.dt;
     recorderParams.captureEveryNth = static_cast<unsigned int>( totalFramesThatWillBeCalced / static_cast<double>(recorderParams.totalSeconds / recorderParams.framesPerSecond) );

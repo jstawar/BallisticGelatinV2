@@ -42,6 +42,7 @@ public:
     OptimisedCollisions(const Settings &settings, unsigned int numBuckets, double maxX, double maxY);
     void addBalls(std::vector<Ball> &balls);
     void nextFrame();
+    ~OptimisedCollisions();
 };
 
 }

@@ -24,6 +24,7 @@ SOURCES += \
     source/Bullets.cpp \
     source/Numerics.cpp \
     source/Physics.cpp \
+    source/Recorder.cpp \
     source/Settings.cpp \
     source/Shield.cpp \
     source/Simulation.cpp \
@@ -36,6 +37,7 @@ HEADERS += \
     include/Bullets.h \
     include/Numerics.h \
     include/Physics.h \
+    include/Recorder.h \
     include/Settings.h \
     include/Shield.h \
     include/Simulation.h \

@@ -2,7 +2,9 @@
 #define SETTINGS_H
 
 #include "Utilities.h"
+
 #include <map>
+#include <string>
 
 // TODO - maybe make it a singleton class
 // TODO - move bullet/shield stuff to bullet/shield settings etc.
@@ -57,6 +59,7 @@ struct Settings
         double framesPerSecond; // TODO - > 0 of course and make some checks
         unsigned int totalSeconds; // total seconds of rendered movie
         unsigned int captureEveryNth; // capture every n-th render one frame
+        std::string fileName;
     };
 
     CalculationParameters calcParams;
