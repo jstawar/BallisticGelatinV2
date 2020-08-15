@@ -41,7 +41,8 @@ protected:
     void connectionPairGL(const SpringConnections &connections);
     void bulletGL(const Bullet &bullet);
     void trianglesGL(const SpringConnections &connections);
-    void printText();
+    void printTextGL();
+    void plotColorMapGL();
 
 private:
 

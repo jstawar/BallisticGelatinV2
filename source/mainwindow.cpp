@@ -208,7 +208,7 @@ void MainWindow::setAnimating(bool enabled)
     }
 }
 
-void MainWindow::printText()
+void MainWindow::printTextGL()
 {
     QPainter painter(this);
     painter.setPen(Qt::white);
@@ -227,6 +227,33 @@ void MainWindow::printText()
     painter.end();
 }
 
+void MainWindow::plotColorMapGL()
+{
+    glPushMatrix();
+    glTranslated(0.0, -0.3, 0.0);
+    unsigned int num = 25;
+    double dx = 1.0/static_cast<double>(num);
+    double current = 0.0;
+    double height = 0.1;
+    for(unsigned int i = 0 ; i < num ; i++)
+    {
+        current = i * dx;
+        glPushMatrix();
+        glBegin(GL_QUADS);
+            utilities::Color color = numerics::linearInterpolation(settings->calcParams.colorMap, current);
+            glColor3d(color.getRed(), color.getGreen(), color.getBlue());
+            glVertex2d(current,height);
+            glVertex2d(current,0.0);
+            color = numerics::linearInterpolation(settings->calcParams.colorMap, current+dx);
+            glColor3d(color.getRed(), color.getGreen(), color.getBlue());
+            glVertex2d(current+dx,0.0);
+            glVertex2d(current+dx,height);
+        glEnd();
+        glPopMatrix();
+    }
+    glPopMatrix();
+}
+
 void MainWindow::paintEvent(QPaintEvent *)
 {
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -243,7 +270,8 @@ void MainWindow::paintEvent(QPaintEvent *)
             bulletGL(*simulation->getBullet());
         if(plotTriangles && simulation->getShield())
             trianglesGL(*simulation->getShield()->getSpringConnections());
-        printText();
+        printTextGL();
+        plotColorMapGL();
     glPopMatrix();
 
     if(simulation->getCurrentTime() > settings->calcParams.tMax)
