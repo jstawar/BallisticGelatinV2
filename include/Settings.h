@@ -17,23 +17,36 @@ struct Settings
         double tMax; // [s]
         bool enableGravity;
         bool checkForGround;
+        std::map<double,utilities::Color> colorMap;
         CalculationParameters();
     };
-    struct SimulationParameters
+    struct SpringParameters
     {
-        unsigned int numXShield; // []
-        unsigned int numYShield;  // []
-        double massShieldBall; // [kg]
-        double radiusShieldBall; // [m]
-        double massBullet; // [kg]
-        double radiusBullet; // [m]
         double extensionBreakCoefficient; // [] but > 1.0 TODO - add checks
         double compressionBreakCoefficient; // [] but < 1.0
         double springCoefficient; // [N/m]
-        utilities::VectorXY initialShieldPosition; // [m]
-        utilities::VectorXY initialBulletPosition; // [m]
-        utilities::VectorXY initialBulletVelocity; // [m/s]
-        std::map<double,utilities::Color> colorMap;
+    };
+    struct ShieldParameters
+    {
+        unsigned int numXShield; // []
+        unsigned int numYShield;  // []
+        double massBall; // [kg]
+        double radiusBall; // [m]
+        SpringParameters springParams;
+        utilities::VectorXY initialPosition; // [m]
+    };
+    struct BulletParameters
+    {
+        double massBall; // [kg]
+        double radiusBall; // [m]
+        SpringParameters springParams;
+        utilities::VectorXY initialPosition; // [m]
+        utilities::VectorXY initialVelocity; // [m/s]
+    };
+    struct SimulationParameters
+    {
+        ShieldParameters shieldParams;
+        BulletParameters bulletParams;
         SimulationParameters();
     };
 

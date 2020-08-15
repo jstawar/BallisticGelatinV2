@@ -11,12 +11,12 @@ BulletBall::BulletBall(const Settings &settings)
 void BulletBall::initialize()
 {
     utilities::Vectors vectors;
-    vectors.position = settings.simParams.initialBulletPosition;
-    vectors.velocity = settings.simParams.initialBulletVelocity;
-    Ball current(vectors, settings.simParams.massBullet, settings.simParams.radiusBullet);
+    vectors.position = settings.simParams.bulletParams.initialPosition;
+    vectors.velocity = settings.simParams.bulletParams.initialVelocity;
+    Ball current(vectors, settings.simParams.bulletParams.massBall, settings.simParams.bulletParams.radiusBall);
     balls.push_back(current);
 
-    mass = settings.simParams.massBullet;
+    mass = settings.simParams.bulletParams.massBall;
     calcVelocity();
 }
 

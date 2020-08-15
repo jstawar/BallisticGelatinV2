@@ -42,11 +42,11 @@ void SpringConnections::TriangleConnection::calcIsActive()
 void SpringConnections::addTriangles()
 {
     unsigned int current = 0;
-    for(unsigned int y = 0 ; y < settings.simParams.numYShield - 1 ; y++)
+    for(unsigned int y = 0 ; y < settings.simParams.shieldParams.numYShield - 1 ; y++)
     {
-        for(unsigned x = 0 ; x < settings.simParams.numXShield - 1 ; x++)
+        for(unsigned x = 0 ; x < settings.simParams.shieldParams.numXShield - 1 ; x++)
         {
-            unsigned int index = (settings.simParams.numXShield - 1 ) * y + x;
+            unsigned int index = (settings.simParams.shieldParams.numXShield - 1 ) * y + x;
             trianglesMap[current].pairs.push_back(&connectionPairs[Right].at(index));
             trianglesMap[current].pairs.push_back(&connectionPairs[Up].at(index+y));
             trianglesMap[current].pairs.push_back(&connectionPairs[LeftUp].at(index));
@@ -61,11 +61,11 @@ void SpringConnections::addTriangles()
         }
     }
 
-    for(unsigned int y = 0 ; y < settings.simParams.numYShield - 1 ; y++)
+    for(unsigned int y = 0 ; y < settings.simParams.shieldParams.numYShield - 1 ; y++)
     {
-        for(unsigned x = 0 ; x < settings.simParams.numXShield - 1 ; x++)
+        for(unsigned x = 0 ; x < settings.simParams.shieldParams.numXShield - 1 ; x++)
         {
-            unsigned int index = (settings.simParams.numXShield - 1 ) * y + x;
+            unsigned int index = (settings.simParams.shieldParams.numXShield - 1 ) * y + x;
             trianglesMap[current].pairs.push_back(&connectionPairs[Right].at(index));
             trianglesMap[current].pairs.push_back(&connectionPairs[Up].at(index+1+y));
             trianglesMap[current].pairs.push_back(&connectionPairs[RightUp].at(index));
@@ -81,12 +81,12 @@ void SpringConnections::addTriangles()
     }
 
     // reversed
-    for(unsigned int y = 0 ; y < settings.simParams.numYShield - 1 ; y++)
+    for(unsigned int y = 0 ; y < settings.simParams.shieldParams.numYShield - 1 ; y++)
     {
-        for(unsigned x = 0 ; x < settings.simParams.numXShield - 1 ; x++)
+        for(unsigned x = 0 ; x < settings.simParams.shieldParams.numXShield - 1 ; x++)
         {
-            unsigned int index = (settings.simParams.numXShield - 1 ) * y + x;
-            unsigned int indexUp = (settings.simParams.numXShield - 1 ) * (y + 1) + x;
+            unsigned int index = (settings.simParams.shieldParams.numXShield - 1 ) * y + x;
+            unsigned int indexUp = (settings.simParams.shieldParams.numXShield - 1 ) * (y + 1) + x;
             trianglesMap[current].pairs.push_back(&connectionPairs[Right].at(indexUp));
             trianglesMap[current].pairs.push_back(&connectionPairs[LeftUp].at(index));
             trianglesMap[current].pairs.push_back(&connectionPairs[Up].at(index+1+y));
@@ -101,12 +101,12 @@ void SpringConnections::addTriangles()
         }
     }
 
-    for(unsigned int y = 0 ; y < settings.simParams.numYShield - 1 ; y++)
+    for(unsigned int y = 0 ; y < settings.simParams.shieldParams.numYShield - 1 ; y++)
     {
-        for(unsigned x = 0 ; x < settings.simParams.numXShield - 1 ; x++)
+        for(unsigned x = 0 ; x < settings.simParams.shieldParams.numXShield - 1 ; x++)
         {
-            unsigned int index = (settings.simParams.numXShield - 1 ) * y + x;
-            unsigned int indexUp = (settings.simParams.numXShield - 1 ) * (y + 1) + x;
+            unsigned int index = (settings.simParams.shieldParams.numXShield - 1 ) * y + x;
+            unsigned int indexUp = (settings.simParams.shieldParams.numXShield - 1 ) * (y + 1) + x;
             trianglesMap[current].pairs.push_back(&connectionPairs[RightUp].at(index));
             trianglesMap[current].pairs.push_back(&connectionPairs[Right].at(indexUp));
             trianglesMap[current].pairs.push_back(&connectionPairs[Up].at(index+y));
@@ -124,14 +124,14 @@ void SpringConnections::addTriangles()
 
 void SpringConnections::addRightConnections()
 {
-    for(unsigned int i = 0 ; i < settings.simParams.numYShield ; i++)
+    for(unsigned int i = 0 ; i < settings.simParams.shieldParams.numYShield ; i++)
     {
-        for(unsigned int j = 0 ; j < settings.simParams.numXShield - 1 ; j++)
+        for(unsigned int j = 0 ; j < settings.simParams.shieldParams.numXShield - 1 ; j++)
         {
-            unsigned int current = settings.simParams.numXShield * i + j;
+            unsigned int current = settings.simParams.shieldParams.numXShield * i + j;
             double restLength = numerics::distance(balls[current].getPosition(), balls[current+1].getPosition());
-            double breakLengthUp = restLength * settings.simParams.extensionBreakCoefficient;
-            double breakLengthDown = restLength * settings.simParams.compressionBreakCoefficient;
+            double breakLengthUp = restLength * settings.simParams.shieldParams.springParams.extensionBreakCoefficient;
+            double breakLengthDown = restLength * settings.simParams.shieldParams.springParams.compressionBreakCoefficient;
             SpringConnectionPair connectionPair( balls[current], balls[current+1], restLength, true, breakLengthUp, breakLengthDown);
             connectionPairs[Right].push_back(connectionPair);
             activeConnections++;
@@ -141,15 +141,15 @@ void SpringConnections::addRightConnections()
 
 void SpringConnections::addLeftUpConnections()
 {
-    for(unsigned int i = 0 ; i < settings.simParams.numYShield - 1 ; i++)
+    for(unsigned int i = 0 ; i < settings.simParams.shieldParams.numYShield - 1 ; i++)
     {
-        for(unsigned int j = 1 ; j < settings.simParams.numXShield; j++)
+        for(unsigned int j = 1 ; j < settings.simParams.shieldParams.numXShield; j++)
         {
-            unsigned int current = settings.simParams.numXShield * i + j;
-            double restLength = numerics::distance(balls[current].getPosition(), balls[current+settings.simParams.numXShield-1].getPosition());
-            double breakLengthUp = restLength * settings.simParams.extensionBreakCoefficient;
-            double breakLengthDown = restLength * settings.simParams.compressionBreakCoefficient;
-            SpringConnectionPair connectionPair( balls[current], balls[current+settings.simParams.numXShield-1], restLength, true, breakLengthUp, breakLengthDown);
+            unsigned int current = settings.simParams.shieldParams.numXShield * i + j;
+            double restLength = numerics::distance(balls[current].getPosition(), balls[current+settings.simParams.shieldParams.numXShield-1].getPosition());
+            double breakLengthUp = restLength * settings.simParams.shieldParams.springParams.extensionBreakCoefficient;
+            double breakLengthDown = restLength * settings.simParams.shieldParams.springParams.compressionBreakCoefficient;
+            SpringConnectionPair connectionPair( balls[current], balls[current+settings.simParams.shieldParams.numXShield-1], restLength, true, breakLengthUp, breakLengthDown);
             connectionPairs[LeftUp].push_back(connectionPair);
             activeConnections++;
         }
@@ -158,15 +158,15 @@ void SpringConnections::addLeftUpConnections()
 
 void SpringConnections::addUpConnections()
 {
-    for(unsigned int i = 0 ; i < settings.simParams.numYShield - 1 ; i++)
+    for(unsigned int i = 0 ; i < settings.simParams.shieldParams.numYShield - 1 ; i++)
     {
-        for(unsigned int j = 0 ; j < settings.simParams.numXShield ; j++)
+        for(unsigned int j = 0 ; j < settings.simParams.shieldParams.numXShield ; j++)
         {
-            unsigned int current = settings.simParams.numXShield * i + j;
-            double restLength = numerics::distance(balls[current].getPosition(), balls[current+settings.simParams.numXShield].getPosition());
-            double breakLengthUp = restLength * settings.simParams.extensionBreakCoefficient;
-            double breakLengthDown = restLength * settings.simParams.compressionBreakCoefficient;
-            SpringConnectionPair connectionPair( balls[current], balls[current+settings.simParams.numXShield], restLength, true, breakLengthUp, breakLengthDown);
+            unsigned int current = settings.simParams.shieldParams.numXShield * i + j;
+            double restLength = numerics::distance(balls[current].getPosition(), balls[current+settings.simParams.shieldParams.numXShield].getPosition());
+            double breakLengthUp = restLength * settings.simParams.shieldParams.springParams.extensionBreakCoefficient;
+            double breakLengthDown = restLength * settings.simParams.shieldParams.springParams.compressionBreakCoefficient;
+            SpringConnectionPair connectionPair( balls[current], balls[current+settings.simParams.shieldParams.numXShield], restLength, true, breakLengthUp, breakLengthDown);
             connectionPairs[Up].push_back(connectionPair);
             activeConnections++;
         }
@@ -175,15 +175,15 @@ void SpringConnections::addUpConnections()
 
 void SpringConnections::addRightUpConnections()
 {
-    for(unsigned int i = 0 ; i < settings.simParams.numYShield - 1 ; i++)
+    for(unsigned int i = 0 ; i < settings.simParams.shieldParams.numYShield - 1 ; i++)
     {
-        for(unsigned int j = 0 ; j < settings.simParams.numXShield - 1; j++)
+        for(unsigned int j = 0 ; j < settings.simParams.shieldParams.numXShield - 1; j++)
         {
-            unsigned int current = settings.simParams.numXShield * i + j;
-            double restLength = numerics::distance(balls[current].getPosition(), balls[current+settings.simParams.numXShield+1].getPosition());
-            double breakLengthUp = restLength * settings.simParams.extensionBreakCoefficient;
-            double breakLengthDown = restLength * settings.simParams.compressionBreakCoefficient;
-            SpringConnectionPair connectionPair( balls[current], balls[current+settings.simParams.numXShield+1], restLength, true, breakLengthUp, breakLengthDown);
+            unsigned int current = settings.simParams.shieldParams.numXShield * i + j;
+            double restLength = numerics::distance(balls[current].getPosition(), balls[current+settings.simParams.shieldParams.numXShield+1].getPosition());
+            double breakLengthUp = restLength * settings.simParams.shieldParams.springParams.extensionBreakCoefficient;
+            double breakLengthDown = restLength * settings.simParams.shieldParams.springParams.compressionBreakCoefficient;
+            SpringConnectionPair connectionPair( balls[current], balls[current+settings.simParams.shieldParams.numXShield+1], restLength, true, breakLengthUp, breakLengthDown);
             connectionPairs[RightUp].push_back(connectionPair);
             activeConnections++;
         }
@@ -215,14 +215,15 @@ void SpringConnections::nextFrame()
             {
                 // now add spring forces to balls
                 double dLength = currentLength - it->restLength;
-                double maxdL = dLength < 0.0 ? (settings.simParams.compressionBreakCoefficient - 1.0) : (settings.simParams.extensionBreakCoefficient - 1.0);
+                double maxdL = dLength < 0.0 ? (settings.simParams.shieldParams.springParams.compressionBreakCoefficient - 1.0) :
+                                               (settings.simParams.shieldParams.springParams.extensionBreakCoefficient - 1.0);
                 maxdL *= it->restLength;
                 it->displacementRatio = dLength / maxdL;
                 double sinTheta = (it->start.getPosition().x - it->finish.getPosition().x)/currentLength;
                 double cosTheta = (it->start.getPosition().y - it->finish.getPosition().y)/currentLength;
                 // k * dL * angle
-                double forceX = settings.simParams.springCoefficient * dLength * sinTheta;
-                double forceY = settings.simParams.springCoefficient * dLength * cosTheta;
+                double forceX = settings.simParams.shieldParams.springParams.springCoefficient * dLength * sinTheta;
+                double forceY = settings.simParams.shieldParams.springParams.springCoefficient * dLength * cosTheta;
 
                 it->start.getVectors().acceleration.x -= forceX / it->start.getMass();
                 it->start.getVectors().acceleration.y -= forceY / it->start.getMass();

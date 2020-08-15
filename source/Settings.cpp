@@ -3,25 +3,23 @@
 // Some default parameters - not checked whether physical
 
 Settings::SimulationParameters::SimulationParameters()
-    : initialBulletPosition(utilities::VectorXY(-0.06,0.5)),
-      initialBulletVelocity(utilities::VectorXY(300.0,0.0))
 {
-    springCoefficient = 100000.0;
-    numXShield = 100;
-    numYShield = 100;
-    massShieldBall = 0.0005;
-    radiusShieldBall = 0.002;
-    massBullet = 0.015;
-    radiusBullet = 0.015;
-    extensionBreakCoefficient = 1.15;
-    compressionBreakCoefficient = 0.65;
-    initialShieldPosition = utilities::VectorXY(0.0, 0.01);
+    shieldParams.numXShield = 100;
+    shieldParams.numYShield = 100;
+    shieldParams.massBall = 0.0005;
+    shieldParams.radiusBall = 0.002;
+    shieldParams.initialPosition = utilities::VectorXY(0.0, 0.01);
+    shieldParams.springParams.springCoefficient = 100000.0;
+    shieldParams.springParams.extensionBreakCoefficient = 1.15;
+    shieldParams.springParams.compressionBreakCoefficient = 0.65;
 
-    colorMap[0.0] = utilities::Color(1.0, 1.0, 1.0);
-    colorMap[0.1] = utilities::Color(0.0, 0.0, 1.0);
-    colorMap[0.2] = utilities::Color(0.0, 1.0, 0.0);
-    colorMap[0.45] = utilities::Color(1.0, 1.0, 0.0);
-    colorMap[0.70] = utilities::Color(1.0, 0.0, 0.0);
+    bulletParams.massBall = 0.015;
+    bulletParams.radiusBall = 0.015;
+    bulletParams.springParams.springCoefficient = 100000.0;
+    bulletParams.springParams.extensionBreakCoefficient = 1.15;
+    bulletParams.springParams.compressionBreakCoefficient = 0.65;
+    bulletParams.initialPosition = utilities::VectorXY(-0.06,0.5);
+    bulletParams.initialVelocity = utilities::VectorXY(300.0,0.0);
 }
 
 Settings::CalculationParameters::CalculationParameters()
@@ -31,7 +29,11 @@ Settings::CalculationParameters::CalculationParameters()
       enableGravity(true),
       checkForGround(false)
 {
-
+    colorMap[0.0] = utilities::Color(1.0, 1.0, 1.0);
+    colorMap[0.1] = utilities::Color(0.0, 0.0, 1.0);
+    colorMap[0.2] = utilities::Color(0.0, 1.0, 0.0);
+    colorMap[0.45] = utilities::Color(1.0, 1.0, 0.0);
+    colorMap[0.70] = utilities::Color(1.0, 0.0, 0.0);
 }
 
 // TODO = initialize it with values from GUI

@@ -113,7 +113,7 @@ void MainWindow::connectionPairGL(const SpringConnections &connections)
 
                 glPushMatrix();
                 glBegin(GL_LINES);
-                    utilities::Color color = numerics::linearInterpolation(settings->simParams.colorMap, current.displacementRatio);
+                    utilities::Color color = numerics::linearInterpolation(settings->calcParams.colorMap, current.displacementRatio);
                     glColor3d(color.getRed(), color.getGreen(), color.getBlue());
                     glVertex2d(current.start.getPosition().x, current.start.getPosition().y);
                     glVertex2d(current.finish.getPosition().x, current.finish.getPosition().y);
@@ -147,15 +147,15 @@ void MainWindow::trianglesGL(const SpringConnections &connections)
 
             glPushMatrix();
             glBegin(GL_TRIANGLES);
-                utilities::Color color = numerics::linearInterpolation(settings->simParams.colorMap, it->second.pairs[0]->displacementRatio);
+                utilities::Color color = numerics::linearInterpolation(settings->calcParams.colorMap, it->second.pairs[0]->displacementRatio);
                 glColor3d(color.getRed(), color.getGreen(), color.getBlue());
                 glVertex2d(it->second.first->getPosition().x,it->second.first->getPosition().y);
 
-                color = numerics::linearInterpolation(settings->simParams.colorMap, it->second.pairs[1]->displacementRatio);
+                color = numerics::linearInterpolation(settings->calcParams.colorMap, it->second.pairs[1]->displacementRatio);
                 glColor3d(color.getRed(), color.getGreen(), color.getBlue());
                 glVertex2d(it->second.second->getPosition().x,it->second.second->getPosition().y);
 
-                color = numerics::linearInterpolation(settings->simParams.colorMap, it->second.pairs[2]->displacementRatio);
+                color = numerics::linearInterpolation(settings->calcParams.colorMap, it->second.pairs[2]->displacementRatio);
                 glColor3d(color.getRed(), color.getGreen(), color.getBlue());
                 glVertex2d(it->second.third->getPosition().x,it->second.third->getPosition().y);
             glEnd();
@@ -222,7 +222,7 @@ void MainWindow::printText()
     }
     painter.drawText(QPointF(100.0, 90.0), QString(QStringLiteral("s = %1 [s]").arg(settings->calcParams.dt * simulation->getFrameNum()) ) );
     painter.drawText(QPointF(100.0, 110.0), QString(QStringLiteral("#balls = %1 []").arg(simulation->getTotalBalls() ) ) );
-    painter.drawText(QPointF(100.0, 130.0), QString(QStringLiteral("k = %1 [N/m]").arg(settings->simParams.springCoefficient ) ) );
+    painter.drawText(QPointF(100.0, 130.0), QString(QStringLiteral("k = %1 [N/m]").arg(settings->simParams.shieldParams.springParams.springCoefficient ) ) );
     painter.drawText(QPointF(100.0, 150.0), QString(QStringLiteral("#AC = %1 []").arg(simulation->getNumActiveConnections() ) ) );
     painter.end();
 }

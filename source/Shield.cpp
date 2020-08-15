@@ -36,24 +36,24 @@ void Shield::nextFrame()
 void Shield::initialize()
 {
     // TODO check if any > 0 - in GUI disabled
-    double dx = 1.0/settings.simParams.numXShield;
-    double dy = 1.0/settings.simParams.numYShield;
+    double dx = 1.0/settings.simParams.shieldParams.numXShield;
+    double dy = 1.0/settings.simParams.shieldParams.numYShield;
 
     double current_x = 0.0;
     double current_y = 0.0;
 
-    balls.reserve( settings.simParams.numXShield * settings.simParams.numYShield );
+    balls.reserve( settings.simParams.shieldParams.numXShield * settings.simParams.shieldParams.numYShield );
 
-    for(unsigned int i = 0 ; i < settings.simParams.numYShield ; i++)
+    for(unsigned int i = 0 ; i < settings.simParams.shieldParams.numYShield ; i++)
     {
         current_y = i * dy;
-        for(unsigned int j = 0 ; j < settings.simParams.numXShield ; j++)
+        for(unsigned int j = 0 ; j < settings.simParams.shieldParams.numXShield ; j++)
         {
             current_x = j * dx;
             // TODO - random small displacements etc.
             utilities::VectorXY position(current_x, current_y);
             utilities::Vectors vectors(position, utilities::VectorXY(0.0, -1.0), utilities::VectorXY(0.0, 0.0) );
-            Ball ball(vectors, settings.simParams.massShieldBall, settings.simParams.radiusShieldBall);
+            Ball ball(vectors, settings.simParams.shieldParams.massBall, settings.simParams.shieldParams.radiusBall);
             balls.push_back(ball);
         }
     }
@@ -61,7 +61,7 @@ void Shield::initialize()
 
     for(unsigned int i = 0 ; i < balls.size() ; i++)
     {
-        balls[i].getVectors().position.translate(settings.simParams.initialShieldPosition);
+        balls[i].getVectors().position.translate(settings.simParams.shieldParams.initialPosition);
     }
 
     springConnections = new SpringConnections(settings, balls);
