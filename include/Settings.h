@@ -65,6 +65,7 @@ struct Settings
         unsigned int captureEveryNth; // capture every n-th render one frame
         std::string fileName;
         bool record;
+        bool streamOnTheFly;
     };
 
     CalculationParameters calcParams;

@@ -14,6 +14,8 @@ class Recorder
 private:
     std::string fileName;
     std::vector<QImage> frames;
+    unsigned int frameNum;
+    bool streamOnTheFly;
 public:
     Recorder(const Settings &settings);
     void captureFrame(const QImage &frame);
