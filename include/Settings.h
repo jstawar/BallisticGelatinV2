@@ -41,6 +41,7 @@ struct Settings
         double fillingPercentage; //[]
         double densityArea; // [kg/m^2]
         double densityVolume; // [kg/m^3]
+        bool hasSpings;
         SpringParameters springParams;
         utilities::VectorXY initialPosition; // [m]
     };
@@ -66,6 +67,7 @@ struct Settings
         std::string fileName;
         bool record;
         bool streamOnTheFly;
+        unsigned int saveFirstFrameNthTimes;
     };
 
     CalculationParameters calcParams;

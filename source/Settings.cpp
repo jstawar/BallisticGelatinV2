@@ -19,7 +19,8 @@ Settings::SimulationParameters::SimulationParameters()
     // shieldParams.shieldDensityArea = shieldParams.massBall * shieldParams.numXShield * shieldParams.numYShield / M_PI * shieldParams.radiusBall * shieldParams.radiusBall
     shieldParams.initialPosition = utilities::VectorXY(0.0, 0.0);
     // TODO - different spring coefficients for different connection/cristalization (more realistic modelling of materials like concrete)
-    shieldParams.springParams.springCoefficient = 400000.0;
+    shieldParams.hasSpings = true;
+    shieldParams.springParams.springCoefficient = 1000000.0;
     shieldParams.springParams.extensionBreakCoefficient = 1.15;
     // TODO - rething the compression break - maybe it's something that is not needed?
     // given the size of the ball and detecting collision - might never be reached?
@@ -62,8 +63,10 @@ Settings::Settings(CalculationParameters calcParams, SimulationParameters simPar
     recorderParams.fileName = "/Users/jakubstawarczyk/renders/test"; // TODO - from GUI location and fileName
     recorderParams.record = false;
     recorderParams.streamOnTheFly = true;
+    recorderParams.saveFirstFrameNthTimes = 30;
     // this is calculated based on other inputs
     double totalFramesThatWillBeCalced = calcParams.tMax / calcParams.dt;
+    // TODO - fix that rounding error that makes animation longer than expected ( 8.2 is rounded to 8 so more frames are captured)
     recorderParams.captureEveryNth = static_cast<unsigned int>( totalFramesThatWillBeCalced / static_cast<double>(recorderParams.totalSeconds * recorderParams.framesPerSecond) );
 
     // TODO - calculate density of objects for selected inputs(remember about cristalization differences)

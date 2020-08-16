@@ -1,19 +1,17 @@
 #include "Recorder.h"
 
 Recorder::Recorder(const Settings &settings)
-    : fileName(settings.recorderParams.fileName),
-      frameNum(0),
-      streamOnTheFly(settings.recorderParams.streamOnTheFly)
+    : settings(settings),
+      fileName(settings.recorderParams.fileName),
+      frameNum(0)
 {
     frames.reserve(static_cast<unsigned int>(settings.recorderParams.framesPerSecond * settings.recorderParams.totalSeconds) );
 }
 
 void Recorder::captureFrame(const QImage &frame)
 {
-    if(streamOnTheFly)
-    {
+    if(settings.recorderParams.streamOnTheFly)
         frame.save(QString(QStringLiteral("%1_%2.jpg").arg(fileName.c_str(), QString("%1").arg(static_cast<int>(frameNum) ) ) ));
-    }
 
     frames.push_back(frame);
     frameNum++;

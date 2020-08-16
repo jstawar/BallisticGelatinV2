@@ -65,7 +65,9 @@ void Shield::initialize()
         balls[i].getVectors().position.translate(settings.simParams.shieldParams.initialPosition);
     }
 
-    springConnections = new SpringConnections(settings, balls);
+    springConnections = nullptr;
+    if(settings.simParams.shieldParams.hasSpings)
+        springConnections = new SpringConnections(settings, balls);
 
     // DO NOT ALTER BALL VECTOR CONTAINER AFTER THAT POINT!!!
 }

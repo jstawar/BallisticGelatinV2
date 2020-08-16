@@ -272,7 +272,7 @@ void MainWindow::paintEvent(QPaintEvent *)
             connectionPairGL(*simulation->getShield()->getSpringConnections());
         if(plotBullet && simulation->getBullet())
             bulletGL(*simulation->getBullet());
-        if(plotTriangles && simulation->getShield())
+        if(plotTriangles && simulation->getShield() && simulation->getShield()->getSpringConnections())
             trianglesGL(*simulation->getShield()->getSpringConnections());
         printTextGL();
         plotColorMapGL();

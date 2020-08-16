@@ -83,6 +83,16 @@ public:
 
 };
 
+enum BulletType
+{
+    Ball,
+    AK47,
+    Pistol9mm,
+    AR15,
+    HR308,
+    BMG50
+};
+
 }
 
 #endif // UTILITIES_H
