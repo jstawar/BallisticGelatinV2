@@ -11,6 +11,8 @@ Settings::SimulationParameters::SimulationParameters()
     shieldParams.totalBalls = shieldParams.numXShield * shieldParams.numYShield;
     shieldParams.dx = 0.0015;
     shieldParams.dy = 0.0015;
+    shieldParams.xL = shieldParams.numXShield * shieldParams.dx;
+    shieldParams.yL = shieldParams.numYShield * shieldParams.dy;
     shieldParams.massBall = 0.00025;
     shieldParams.mass = shieldParams.massBall * shieldParams.totalBalls;
     // TODO - collision radius and display radius - will look nicer, make it blend. Ball filled with color representing tension (no spring attached - red)
@@ -47,6 +49,8 @@ Settings::CalculationParameters::CalculationParameters()
       enableGravity(true), // given the time of simulation it might have a negligible effect
       checkForGround(true)
 {
+    // set colors for values [-1, 1]
+    colorMap[-1.0] = utilities::Color(1.0, 0.0, 1.0);
     colorMap[0.0] = utilities::Color(1.0, 1.0, 1.0);
     colorMap[0.1] = utilities::Color(0.0, 0.0, 1.0);
     colorMap[0.2] = utilities::Color(0.0, 1.0, 0.0);

@@ -214,12 +214,12 @@ void MainWindow::plotColorMapGL()
     glTranslated(0.0, -0.3, 0.0);
     glScaled(0.25,1.0,1.0);
     unsigned int num = 25;
-    double dx = 1.0/static_cast<double>(num);
-    double current = 0.0;
+    double dx = 2.0/static_cast<double>(num);
+    double current = -1.0;
     double height = 0.1;
     for(unsigned int i = 0 ; i < num ; i++)
     {
-        current = i * dx;
+        current += dx;
         glPushMatrix();
         glBegin(GL_QUADS);
             utilities::Color color = numerics::linearInterpolation(settings->calcParams.colorMap, current);
@@ -270,8 +270,10 @@ void MainWindow::printShieldInfo(const Shield &shield)
     painter.drawText(QPointF(20.0, 180.0), QString(QStringLiteral("#balls = %1 []").arg( settings->simParams.shieldParams.totalBalls ) ) );
     painter.drawText(QPointF(20.0, 200.0), QString(QStringLiteral("k = %1 [kN/m]").arg(settings->simParams.shieldParams.springParams.springCoefficient / 1000.0 ) ) );
     painter.drawText(QPointF(20.0, 220.0), QString(QStringLiteral("Total mass = %1 [kg]").arg(settings->simParams.shieldParams.mass ) ) );
+    QString dim(QStringLiteral("dim X x Y = %1 * %2 [cm * cm]").arg(settings->simParams.shieldParams.xL * 100.0) );
+    painter.drawText(QPointF(20.0, 240.0), dim.arg( QString("%1").arg(settings->simParams.shieldParams.yL * 100.0 ) ) );
     if( shield.getSpringConnections() )
-        painter.drawText(QPointF(20.0, 240.0), QString(QStringLiteral("#AC = %1 []").arg(shield.getSpringConnections()->getActiveConnections() ) ) );
+        painter.drawText(QPointF(20.0, 260.0), QString(QStringLiteral("#AC = %1 []").arg(shield.getSpringConnections()->getActiveConnections() ) ) );
     painter.end();
     glPopMatrix();
 }

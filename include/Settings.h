@@ -36,6 +36,8 @@ struct Settings
         unsigned int totalBalls; // [] ... calculated
         double dx; // [m]
         double dy; // [m]
+        double xL; // [m] ... calculated
+        double yL; // [m] ... calculated
         double massBall; // [kg]
         double fillingPercentage; // []
         double radiusBall; // [m] ... calculated
