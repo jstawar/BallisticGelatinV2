@@ -273,8 +273,10 @@ void MainWindow::printShieldInfo(const Shield &shield)
     painter.drawText(QPointF(20.0, 220.0), QString(QStringLiteral("Total mass = %1 [kg]").arg(settings->simParams.shieldParams.mass ) ) );
     QString dim(QStringLiteral("dim X x Y = %1 * %2 [cm * cm]").arg(settings->simParams.shieldParams.xL * 100.0) );
     painter.drawText(QPointF(20.0, 240.0), dim.arg( QString("%1").arg(settings->simParams.shieldParams.yL * 100.0 ) ) );
+    painter.drawText(QPointF(20.0, 260.0), QString(QStringLiteral("density = %1 [kg/m^2]").arg(settings->simParams.shieldParams.densityArea ) ) );
+    painter.drawText(QPointF(20.0, 280.0), QString(QStringLiteral("density = %1 [kg/m^3]").arg(settings->simParams.shieldParams.densityVolume ) ) );
     if( shield.getSpringConnections() )
-        painter.drawText(QPointF(20.0, 260.0), QString(QStringLiteral("#AC = %1 []").arg(shield.getSpringConnections()->getActiveConnections() ) ) );
+        painter.drawText(QPointF(20.0, 300.0), QString(QStringLiteral("#AC = %1 []").arg(shield.getSpringConnections()->getActiveConnections() ) ) );
     painter.end();
     glPopMatrix();
 }
@@ -294,7 +296,9 @@ void MainWindow::printSimulationInfo(const Simulation &simulation)
         painter.setPen(Qt::white);
         painter.setFont(QFont("Arial", 16));
         painter.drawText(QPointF(440.0, 20.0), QString(QStringLiteral("SIMULATION INFO") ) );
-        painter.drawText(QPointF(440.0, 40.0), QString(QStringLiteral("time = %1 [ms]").arg(simulation.getCurrentTime() * 1000) ) );
+        painter.drawText(QPointF(440.0, 40.0), QString(QStringLiteral("dt = %1 [ms]").arg(settings->calcParams.dt * 1000) ) );
+        painter.drawText(QPointF(440.0, 60.0), QString(QStringLiteral("time = %1 [ms]").arg(simulation.getCurrentTime() * 1000) ) );
+
         painter.end();
     glPopMatrix();
 }

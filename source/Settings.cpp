@@ -9,23 +9,24 @@ Settings::SimulationParameters::SimulationParameters()
     shieldParams.numXShield = 120;
     shieldParams.numYShield = 120;
     shieldParams.totalBalls = shieldParams.numXShield * shieldParams.numYShield;
-    shieldParams.dx = 0.0015;
-    shieldParams.dy = 0.0015;
+    shieldParams.dx = 0.0035;
+    shieldParams.dy = 0.0035;
     shieldParams.xL = shieldParams.numXShield * shieldParams.dx;
     shieldParams.yL = shieldParams.numYShield * shieldParams.dy;
-    shieldParams.massBall = 0.00025;
+    shieldParams.massBall = 0.0001;
     shieldParams.mass = shieldParams.massBall * shieldParams.totalBalls;
     // TODO - collision radius and display radius - will look nicer, make it blend. Ball filled with color representing tension (no spring attached - red)
     shieldParams.fillingPercentage = 0.6;
     shieldParams.radiusBall = std::min( shieldParams.dx, shieldParams.dy ) * shieldParams.fillingPercentage / 2.0; // TODO - filling from GUI
     // now we can calculate the densities
-    // shieldParams.shieldDensityArea = shieldParams.massBall * shieldParams.numXShield * shieldParams.numYShield / M_PI * shieldParams.radiusBall * shieldParams.radiusBall
+    shieldParams.densityArea = shieldParams.mass / (shieldParams.xL * shieldParams.yL);
+    shieldParams.densityVolume = shieldParams.densityArea / ( 2.0 * shieldParams.radiusBall ) * shieldParams.fillingPercentage;
     shieldParams.initialPosition = utilities::VectorXY(0.0, 0.0);
     // TODO - different spring coefficients for different connection/cristalization (more realistic modelling of materials like concrete)
     shieldParams.hasSpings = true;
     shieldParams.springParams.springCoefficient = 1000000.0;
     shieldParams.springParams.extensionBreakCoefficient = 1.15;
-    // TODO - rething the compression break - maybe it's something that is not needed?
+    // TODO - rethink the compression break - maybe it's something that is not needed?
     // given the size of the ball and detecting collision - might never be reached?
     shieldParams.springParams.compressionBreakCoefficient = 0.65;
 
