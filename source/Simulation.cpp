@@ -37,8 +37,3 @@ void Simulation::nextFrame()
     currentTime += settings.calcParams.dt;
 }
 
-void Simulation::countActiveConnections()
-{
-
-}
-

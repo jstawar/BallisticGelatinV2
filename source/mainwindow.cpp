@@ -208,25 +208,6 @@ void MainWindow::setAnimating(bool enabled)
     }
 }
 
-void MainWindow::printTextGL()
-{
-    QPainter painter(this);
-    painter.setPen(Qt::white);
-    painter.setFont(QFont("Arial", 16));
-    if( simulation->getBullet() )
-    {
-        double energy = simulation->getBullet()->getEnergy();
-        double velocity = simulation->getBullet()->getVelocity().norm();
-        painter.drawText(QPointF(100.0, 50.0), QString(QStringLiteral("E_k = %1 [J]").arg(energy) ) );
-        painter.drawText(QPointF(100.0, 70.0), QString(QStringLiteral("V = %1 [m/s]").arg(velocity) ) );
-    }
-    painter.drawText(QPointF(100.0, 90.0), QString(QStringLiteral("time = %1 [ms]").arg(simulation->getCurrentTime() * 1000) ) );
-    painter.drawText(QPointF(100.0, 110.0), QString(QStringLiteral("#balls = %1 []").arg(simulation->getTotalBalls() ) ) );
-    painter.drawText(QPointF(100.0, 130.0), QString(QStringLiteral("k = %1 [N/m]").arg(settings->simParams.shieldParams.springParams.springCoefficient ) ) );
-    painter.drawText(QPointF(100.0, 150.0), QString(QStringLiteral("#AC = %1 []").arg(simulation->getNumActiveConnections() ) ) );
-    painter.end();
-}
-
 void MainWindow::plotColorMapGL()
 {
     glPushMatrix();
@@ -255,6 +236,66 @@ void MainWindow::plotColorMapGL()
     glPopMatrix();
 }
 
+void MainWindow::printProjectileInfo(const Bullet &bullet)
+{
+    glPushMatrix();
+    QPainter painter(this);
+    painter.setPen(Qt::white);
+    painter.setFont(QFont("Arial", 16));
+    // TODO
+    painter.drawText(QPointF(220.0, 20.0), QString(QStringLiteral("PROJECTILE INFO") ) );
+    painter.drawText(QPointF(220.0, 40.0), QString(QStringLiteral("Total mass = %1 [g]").arg(settings->simParams.bulletParams.massBall * 1000.0 ) ) );
+    double energy = bullet.getEnergy();
+    double velocity = bullet.getVelocity().norm();
+    painter.drawText(QPointF(220.0, 60.0), QString(QStringLiteral("Kinetic energy = %1 [J]").arg(energy) ) );
+    painter.drawText(QPointF(220.0, 80.0), QString(QStringLiteral("Velocity = %1 [m/s]").arg(velocity) ) );
+    painter.end();
+    glPopMatrix();
+}
+
+void MainWindow::printShieldInfo(const Shield &shield)
+{
+    glPushMatrix();
+    QPainter painter(this);
+    painter.setPen(Qt::white);
+    painter.setFont(QFont("Arial", 16));
+    painter.drawText(QPointF(20.0, 20.0), QString(QStringLiteral("SHIELD INFO") ) );
+    painter.drawText(QPointF(20.0, 40.0), QString(QStringLiteral("n_X = %1 []").arg(settings->simParams.shieldParams.numXShield) ) );
+    painter.drawText(QPointF(20.0, 60.0), QString(QStringLiteral("n_Y = %1 []").arg(settings->simParams.shieldParams.numYShield) ) );
+    painter.drawText(QPointF(20.0, 80.0), QString(QStringLiteral("dx = %1 [mm]").arg(settings->simParams.shieldParams.dx * 1000.0) ) );
+    painter.drawText(QPointF(20.0, 100.0), QString(QStringLiteral("xy = %1 [mm]").arg(settings->simParams.shieldParams.dy * 1000.0) ) );
+    painter.drawText(QPointF(20.0, 120.0), QString(QStringLiteral("ball Mass = %1 [g]").arg(settings->simParams.shieldParams.massBall * 1000.0) ) );
+    painter.drawText(QPointF(20.0, 140.0), QString(QStringLiteral("ball filling % = %1 []").arg(settings->simParams.shieldParams.fillingPercentage) ) );
+    painter.drawText(QPointF(20.0, 160.0), QString(QStringLiteral("ball radius = %1 [mm]").arg(settings->simParams.shieldParams.radiusBall * 1000.0) ) );
+    painter.drawText(QPointF(20.0, 180.0), QString(QStringLiteral("#balls = %1 []").arg( settings->simParams.shieldParams.totalBalls ) ) );
+    painter.drawText(QPointF(20.0, 200.0), QString(QStringLiteral("k = %1 [kN/m]").arg(settings->simParams.shieldParams.springParams.springCoefficient / 1000.0 ) ) );
+    painter.drawText(QPointF(20.0, 220.0), QString(QStringLiteral("Total mass = %1 [kg]").arg(settings->simParams.shieldParams.mass ) ) );
+    if( shield.getSpringConnections() )
+        painter.drawText(QPointF(20.0, 240.0), QString(QStringLiteral("#AC = %1 []").arg(shield.getSpringConnections()->getActiveConnections() ) ) );
+    painter.end();
+    glPopMatrix();
+}
+
+void MainWindow::printSimulationInfo(const Simulation &simulation)
+{
+    glPushMatrix();
+        if( simulation.getBullet() )
+        {
+            printProjectileInfo(*simulation.getBullet());
+        }
+        if( simulation.getShield() )
+        {
+            printShieldInfo(*simulation.getShield());
+        }
+        QPainter painter(this);
+        painter.setPen(Qt::white);
+        painter.setFont(QFont("Arial", 16));
+        painter.drawText(QPointF(440.0, 20.0), QString(QStringLiteral("SIMULATION INFO") ) );
+        painter.drawText(QPointF(440.0, 40.0), QString(QStringLiteral("time = %1 [ms]").arg(simulation.getCurrentTime() * 1000) ) );
+        painter.end();
+    glPopMatrix();
+}
+
 // TODO - create some ENGINE function - this is ugly
 // TODO - add Plotting of V(t), V(x), Ek(t), Ek(x), p(t), p(x)
 void MainWindow::paintEvent(QPaintEvent *)
@@ -266,15 +307,18 @@ void MainWindow::paintEvent(QPaintEvent *)
         glScaled(2.0,2.0,1.0);
         glTranslated(0.0,-0.15,0.0);
         coordinateSystemGL();
-        if(plotShield && simulation->getShield())
-            plotShieldGL(*simulation->getShield());
-        if(plotConnections && simulation->getShield() && simulation->getShield()->getSpringConnections())
-            connectionPairGL(*simulation->getShield()->getSpringConnections());
-        if(plotBullet && simulation->getBullet())
-            bulletGL(*simulation->getBullet());
-        if(plotTriangles && simulation->getShield() && simulation->getShield()->getSpringConnections())
-            trianglesGL(*simulation->getShield()->getSpringConnections());
-        printTextGL();
+        if(simulation)
+        {
+            if(plotShield && simulation->getShield())
+                plotShieldGL(*simulation->getShield());
+            if(plotConnections && simulation->getShield() && simulation->getShield()->getSpringConnections())
+                connectionPairGL(*simulation->getShield()->getSpringConnections());
+            if(plotBullet && simulation->getBullet())
+                bulletGL(*simulation->getBullet());
+            if(plotTriangles && simulation->getShield() && simulation->getShield()->getSpringConnections())
+                trianglesGL(*simulation->getShield()->getSpringConnections());
+            printSimulationInfo(*simulation);
+        }
         plotColorMapGL();
     glPopMatrix();
 

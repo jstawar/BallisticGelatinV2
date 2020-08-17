@@ -17,7 +17,6 @@ private:
     unsigned int frameNum;
     unsigned int totalBalls;
     double currentTime;
-    void countActiveConnections();
 public:
     Simulation(const Settings &settings);
     void nextFrame();

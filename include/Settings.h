@@ -33,14 +33,15 @@ struct Settings
     {
         unsigned int numXShield; // []
         unsigned int numYShield;  // []
+        unsigned int totalBalls; // [] ... calculated
         double dx; // [m]
         double dy; // [m]
         double massBall; // [kg]
-        double radiusBall; // [m]
-        double mass; // [kg]
-        double fillingPercentage; //[]
-        double densityArea; // [kg/m^2]
-        double densityVolume; // [kg/m^3]
+        double fillingPercentage; // []
+        double radiusBall; // [m] ... calculated
+        double mass; // [kg] ... calculated
+        double densityArea; // [kg/m^2] ... calculated
+        double densityVolume; // [kg/m^3] ... calculated
         bool hasSpings;
         SpringParameters springParams;
         utilities::VectorXY initialPosition; // [m]

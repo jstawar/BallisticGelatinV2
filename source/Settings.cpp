@@ -8,10 +8,11 @@ Settings::SimulationParameters::SimulationParameters()
     // SHIELD
     shieldParams.numXShield = 120;
     shieldParams.numYShield = 120;
-    shieldParams.dx = 0.003;
-    shieldParams.dy = 0.003;
-    shieldParams.massBall = 0.0005;
-    shieldParams.mass = shieldParams.massBall * shieldParams.numXShield * shieldParams.numYShield;
+    shieldParams.totalBalls = shieldParams.numXShield * shieldParams.numYShield;
+    shieldParams.dx = 0.0015;
+    shieldParams.dy = 0.0015;
+    shieldParams.massBall = 0.00025;
+    shieldParams.mass = shieldParams.massBall * shieldParams.totalBalls;
     // TODO - collision radius and display radius - will look nicer, make it blend. Ball filled with color representing tension (no spring attached - red)
     shieldParams.fillingPercentage = 0.6;
     shieldParams.radiusBall = std::min( shieldParams.dx, shieldParams.dy ) * shieldParams.fillingPercentage / 2.0; // TODO - filling from GUI
