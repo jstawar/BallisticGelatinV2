@@ -12,6 +12,7 @@ class Bullet
 {
 protected:
     const Settings &settings;
+    const std::string type;
     // TODO - please make me const - thou shall NOT alter the container after fully initialized! altering the elements is ok but NO shuffling!!!
     std::vector<Ball> balls;
     double mass; // joint mass of all constituents
@@ -19,13 +20,18 @@ protected:
     SpringConnections *springConnections;
     virtual void initialize() = 0;
 public:
-    Bullet(const Settings &settings)
+    Bullet(const Settings &settings, const std::string &type)
         : settings(settings),
+          type(type),
           springConnections(nullptr)
     {
 
     }
     virtual void nextFrame();
+    const std::string &getType() const
+    {
+        return type;
+    }
     const std::vector<Ball> &getBalls() const
     {
         return balls;

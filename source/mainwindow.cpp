@@ -249,6 +249,7 @@ void MainWindow::printProjectileInfo(const Bullet &bullet)
     double velocity = bullet.getVelocity().norm();
     painter.drawText(QPointF(220.0, 60.0), QString(QStringLiteral("Kinetic energy = %1 [J]").arg(energy) ) );
     painter.drawText(QPointF(220.0, 80.0), QString(QStringLiteral("Velocity = %1 [m/s]").arg(velocity) ) );
+    painter.drawText(QPointF(220.0, 100.0), QString(QStringLiteral("Type: %1").arg(bullet.getType().c_str()) ) );
     painter.end();
     glPopMatrix();
 }

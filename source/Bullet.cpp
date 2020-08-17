@@ -3,7 +3,7 @@
 #include <cmath>
 
 BulletBall::BulletBall(const Settings &settings)
-    : Bullet(settings)
+    : Bullet(settings, "Ball")
 {
     initialize();
 }

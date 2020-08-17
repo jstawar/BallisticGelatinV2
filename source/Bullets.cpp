@@ -4,7 +4,7 @@ namespace bullets
 {
 
 BulletAK47::BulletAK47(const Settings &settings)
-    : Bullet(settings)
+    : Bullet(settings, "AK47")
 {
     initialize();
 }
