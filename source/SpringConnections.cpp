@@ -217,7 +217,7 @@ void SpringConnections::nextFrame()
             {
                 // now add spring forces to balls
                 double dLength = currentLength - it->restLength;
-                double maxdL = dLength < 0.0 ? (settings.simParams.shieldParams.springParams.compressionBreakCoefficient - 1.0) :
+                double maxdL = dLength < 0.0 ? (1.0 - settings.simParams.shieldParams.springParams.compressionBreakCoefficient) :
                                                (settings.simParams.shieldParams.springParams.extensionBreakCoefficient - 1.0);
                 maxdL *= it->restLength;
                 it->displacementRatio = dLength / maxdL; // so we have our color - tension

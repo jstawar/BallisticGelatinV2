@@ -233,6 +233,12 @@ void MainWindow::plotColorMapGL()
         glEnd();
         glPopMatrix();
     }
+    QPainter painter(this);
+    painter.setPen(Qt::white);
+    painter.setFont(QFont("Arial", 16));
+    // TODO
+   // painter.drawText(QPointF(0.0, 0.0), QString(QStringLiteral("[N]") ) );
+    painter.end();
     glPopMatrix();
 }
 
